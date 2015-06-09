@@ -2,22 +2,33 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import "package:mojo/public/dart/application.dart";
+import "package:mojo/application.dart";
 import "dart:sky.internals" as internals;
-import "package:mojo/public/dart/bindings.dart" as bindings;
-import "package:mojo/public/dart/core.dart" as core;
-import "package:mojo/public/interfaces/application/service_provider.mojom.dart";
-import "package:mojo/public/interfaces/application/shell.mojom.dart";
-import "package:mojo/services/service_registry/public/interfaces/service_registry.mojom.dart";
+import "package:mojo/bindings.dart" as bindings;
+import "package:mojo/core.dart" as core;
+import "package:mojom/mojo/service_provider.mojom.dart";
+import "package:mojom/mojo/shell.mojom.dart";
+import "package:mojom/mojo/service_registry.mojom.dart";
 
 final _EmbedderImpl embedder = new _EmbedderImpl();
 
 class _EmbedderImpl {
   ApplicationConnection _connection;
   ServiceRegistryProxy _serviceRegistry;
+  ShellProxy _shell;
+  bool _internalsHasNoShell = false;
 
-  final ShellProxy shell = new ShellProxy.fromHandle(
-      new core.MojoHandle(internals.takeShellProxyHandle()));
+  ShellProxy get shell {
+    if (_internalsHasNoShell || _shell != null) return _shell;
+
+    try {
+      _shell = new ShellProxy.fromHandle(
+          new core.MojoHandle(internals.takeShellProxyHandle()));
+    } catch (e) {
+      _internalsHasNoShell = true;
+    }
+    return _shell;
+  }
 
   ApplicationConnection get connection {
     if (_connection == null) {

@@ -1,0 +1,59 @@
+//<script>
+import "dart:sky" as sky;
+
+class RenderNode {
+  sky.Element element;
+
+  List<RenderNode> children;
+
+  void add(RenderNode child) {
+    children.add(child);
+  }
+
+  void layout({minWidth: null, maxWidth: null}) {
+
+  }
+
+  void paint(DisplayList list) {
+
+  }
+}
+
+class RenderInline extends RenderNode {
+
+}
+
+class RenderText extends RenderNode {
+  String text;
+
+  RenderText(this.text);
+}
+
+class RenderParagraph extends RenderNode {
+}
+
+class DisplayList {
+
+}
+
+void doIt() {
+  var inline = new RenderInline();
+  // We'll need a better API for looking up fonts.
+  // inline.textStyle.fontSize = "Helvetica";
+  var text = new RenderText("This is a long bit of text which should wrap. ");
+  var text2 = new RenderText("And this bit is bold ");
+  // text2.textStyle.weight = 900;
+  inline.add(text);
+  inline.add(text2);
+  var text3 = new RenderText("And this bit has the default font");
+  var block = new RenderParagraph();
+  block.add(inline);
+  block.add(text3);
+  block.layout(minWidth: 100, maxWidth: 100);
+
+  var list = new DisplayList();
+  block.paint(list);
+
+  sky.window.rootDisplayList = list;
+}
+//</script>

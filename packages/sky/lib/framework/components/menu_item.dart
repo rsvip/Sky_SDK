@@ -3,24 +3,19 @@
 // found in the LICENSE file.
 
 import '../fn.dart';
+import '../layout.dart';
 import 'button_base.dart';
 import 'icon.dart';
 import 'ink_well.dart';
 
 class MenuItem extends ButtonBase {
   static final Style _style = new Style('''
-    transform: translateX(0);
-    display: flex;
-    flex-direction: row;
     align-items: center;
     height: 48px;
     -webkit-user-select: none;'''
   );
 
   static final Style _highlightStyle = new Style('''
-    transform: translateX(0);
-    display: flex;
-    flex-direction: row;
     align-items: center;
     height: 48px;
     background: rgba(153, 153, 153, 0.4);
@@ -32,33 +27,42 @@ class MenuItem extends ButtonBase {
   );
 
   static final Style _labelStyle = new Style('''
-    padding: 0px 16px;
-    flex: 1;'''
+    padding: 0px 16px;'''
   );
+
+  static final FlexBoxParentData _labelFlex = new FlexBoxParentData()..flex = 1;
 
   List<UINode> children;
   String icon;
+  GestureEventListener onGestureTap;
 
-  MenuItem({ Object key, this.icon, this.children }) : super(key: key);
+  MenuItem({ Object key, this.icon, this.children, this.onGestureTap }) : super(key: key);
 
   UINode buildContent() {
-    return new StyleNode(
-      new InkWell(
-        children: [
-          new StyleNode(
-            new Icon(
-              size: 24,
-              type: "${icon}_grey600"
+    return new EventListenerNode(
+      new StyleNode(
+        new InkWell(
+          children: [
+            new StyleNode(
+              new Icon(
+                size: 24,
+                type: "${icon}_grey600"
+              ),
+              _iconStyle
             ),
-            _iconStyle
-          ),
-          new Container(
-            style: _labelStyle,
-            children: children
-          )
-        ]
+            new ParentDataNode(
+              new FlexContainer(
+                direction: FlexDirection.Row,
+                style: _labelStyle,
+                children: children
+              ),
+              _labelFlex
+            )
+          ]
+        ),
+        highlight ? _highlightStyle : _style
       ),
-      highlight ? _highlightStyle : _style
+      onGestureTap: onGestureTap
     );
   }
 }

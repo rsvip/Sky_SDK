@@ -6,7 +6,7 @@ import '../animation/generators.dart';
 import '../animation/mechanics.dart';
 import '../animation/scroll_behavior.dart';
 import '../fn.dart';
-import '../theme/view-configuration.dart' as config;
+import '../theme/view_configuration.dart' as config;
 import 'dart:math' as math;
 import 'dart:sky' as sky;
 
@@ -17,14 +17,26 @@ double _velocityForFlingGesture(sky.GestureEvent event) {
       -event.velocityY)) / _kMillisecondsPerSecond;
 }
 
+abstract class ScrollClient {
+  bool ancestorScrolled(Scrollable ancestor);
+}
+
 abstract class Scrollable extends Component {
-  ScrollBehavior scrollBehavior;
-  double get scrollOffset => _scrollOffset;
 
   double _scrollOffset = 0.0;
+  double get scrollOffset => _scrollOffset;
+
+  ScrollBehavior _scrollBehavior;
+  ScrollBehavior createScrollBehavior();
+  ScrollBehavior get scrollBehavior {
+    if (_scrollBehavior == null)
+      _scrollBehavior = createScrollBehavior();
+    return _scrollBehavior;
+  }
+
   Simulation _simulation;
 
-  Scrollable({Object key, this.scrollBehavior}) : super(key: key) {
+  Scrollable({Object key}) : super(key: key) {
     onDidUnmount(_stopSimulation);
   }
 
@@ -43,12 +55,43 @@ abstract class Scrollable extends Component {
     );
   }
 
+  List<ScrollClient> _registeredScrollClients;
+
+  void registerScrollClient(ScrollClient notifiee) {
+    if (_registeredScrollClients == null)
+      _registeredScrollClients = new List<ScrollClient>();
+    setState(() {
+      _registeredScrollClients.add(notifiee);
+    });
+  }
+
+  void unregisterScrollClient(ScrollClient notifiee) {
+    if (_registeredScrollClients == null)
+      return;
+    setState(() {
+      _registeredScrollClients.remove(notifiee);
+    });
+  }
+
   bool scrollTo(double newScrollOffset) {
     if (newScrollOffset == _scrollOffset)
       return false;
     setState(() {
       _scrollOffset = newScrollOffset;
     });
+    if (_registeredScrollClients != null) {
+      var newList = null;
+      _registeredScrollClients.forEach((target) {
+        if (target.ancestorScrolled(this)) {
+          if (newList == null)
+            newList = new List<ScrollClient>();
+          newList.add(target);
+        }
+      });
+      setState(() {
+        _registeredScrollClients = newList;
+      });
+    }
     return true;
   }
 

@@ -3,12 +3,15 @@
 // found in the LICENSE file.
 
 import '../fn.dart';
+import '../layout.dart';
 import 'dart:collection';
 import 'dart:sky' as sky;
 import 'ink_splash.dart';
+import 'scrollable.dart';
 
-class InkWell extends Component {
+class InkWell extends Component implements ScrollClient {
   static final Style _containmentStyleHack = new Style('''
+    align-items: center;
     transform: translateX(0);''');
 
   LinkedHashSet<SplashController> _splashes;
@@ -35,7 +38,8 @@ class InkWell extends Component {
       childrenIncludingSplashes.addAll(children);
 
     return new EventListenerNode(
-      new Container(
+      new FlexContainer(
+        direction: FlexDirection.Row,
         style: _containmentStyleHack,
         inlineStyle: inlineStyle,
         children: childrenIncludingSplashes),
@@ -44,18 +48,38 @@ class InkWell extends Component {
     );
   }
 
-  sky.ClientRect _getBoundingRect() => (getRoot() as sky.Element).getBoundingClientRect();
-
   void _startSplash(sky.GestureEvent event) {
     setState(() {
       if (_splashes == null)
         _splashes = new LinkedHashSet<SplashController>();
       var splash;
-      splash = new SplashController(_getBoundingRect(), event.x, event.y,
+      var root = getRoot();
+      splash = new SplashController(root.rect, event.x, event.y,
                                     pointer: event.primaryPointer,
                                     onDone: () { _splashDone(splash); });
       _splashes.add(splash);
+      UINode node = parent;
+      while (node != null) {
+        if (node is Scrollable)
+          node.registerScrollClient(this);
+        node = node.parent;
+      }
     });
+  }
+
+  bool ancestorScrolled(Scrollable ancestor) {
+    _abortSplashes();
+    return false;
+  }
+
+  void handleRemoved() {
+    UINode node = parent;
+    while (node != null) {
+      if (node is Scrollable)
+        node.unregisterScrollClient(this);
+      node = node.parent;
+    }
+    super.handleRemoved();
   }
 
   void _confirmSplash(sky.GestureEvent event) {
@@ -63,6 +87,14 @@ class InkWell extends Component {
       return;
     _splashes.where((splash) => splash.pointer == event.primaryPointer)
              .forEach((splash) { splash.confirm(); });
+  }
+
+  void _abortSplashes() {
+    if (_splashes == null)
+      return;
+    setState(() {
+      _splashes.forEach((s) { s.abort(); });
+    });
   }
 
   void _cancelSplashes(sky.Event event) {

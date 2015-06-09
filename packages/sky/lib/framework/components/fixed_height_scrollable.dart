@@ -6,7 +6,6 @@ import '../animation/scroll_behavior.dart';
 import '../debug/tracing.dart';
 import '../fn.dart';
 import 'dart:math' as math;
-import 'dart:sky' as sky;
 import 'dart:async';
 import 'scrollable.dart';
 
@@ -22,13 +21,25 @@ abstract class FixedHeightScrollable extends Scrollable {
     will-change: transform;'''
   );
 
+  FixedHeightScrollable({
+    Object key
+  }) : super(key: key);
+
+  ScrollBehavior createScrollBehavior() => new OverscrollBehavior();
+  OverscrollBehavior get scrollBehavior => super.scrollBehavior as OverscrollBehavior;
+
   double _height = 0.0;
   double _itemHeight;
 
-  FixedHeightScrollable({
-    Object key,
-    ScrollBehavior scrollBehavior
-  }) : super(key: key, scrollBehavior: scrollBehavior);
+  int _itemCount = 0;
+  int get itemCount => _itemCount;
+  void set itemCount (int value) {
+    if (_itemCount != value) {
+      _itemCount = value;
+      if (_itemHeight != null)
+        scrollBehavior.contentsHeight = _itemHeight * _itemCount;
+    }
+  }
 
   void _measureHeights() {
     trace('FixedHeightScrollable::_measureHeights', () {
@@ -40,14 +51,13 @@ abstract class FixedHeightScrollable extends Scrollable {
       var item = root.firstChild.firstChild;
       if (item == null)
         return;
-      sky.ClientRect scrollRect = root.getBoundingClientRect();
-      sky.ClientRect itemRect = item.getBoundingClientRect();
-      assert(scrollRect.height > 0);
-      assert(itemRect.height > 0);
-
       setState(() {
-        _height = scrollRect.height;
-        _itemHeight = itemRect.height;
+        _height = root.height;
+        assert(_height > 0);
+        _itemHeight = item.height;
+        assert(_itemHeight > 0);
+        scrollBehavior.containerHeight = _height;
+        scrollBehavior.contentsHeight = _itemHeight * _itemCount;
       });
     });
   }
@@ -67,8 +77,7 @@ abstract class FixedHeightScrollable extends Scrollable {
         transformStyle =
           'transform: translateY(${(-scrollOffset).toStringAsFixed(2)}px)';
       } else {
-        drawCount = (_height / _itemHeight).round() + 1;
-        double alignmentOffset = math.max(0.0, scrollOffset);
+        drawCount = (_height / _itemHeight).ceil() + 1;
         double alignmentDelta = -scrollOffset % _itemHeight;
         if (alignmentDelta != 0.0)
           alignmentDelta -= _itemHeight;
@@ -92,4 +101,6 @@ abstract class FixedHeightScrollable extends Scrollable {
       ]
     );
   }
+
+  List<UINode> buildItems(int start, int count);  
 }

@@ -6,10 +6,8 @@ import 'animated_component.dart';
 import '../animation/animated_value.dart';
 import '../fn.dart';
 import '../theme/colors.dart';
-import '../theme/view-configuration.dart';
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:sky' as sky;
 import 'material.dart';
 import 'popup_menu_item.dart';
 
@@ -17,20 +15,37 @@ const double _kMenuOpenDuration = 300.0;
 const double _kMenuCloseDuration = 200.0;
 const double _kMenuCloseDelay = 100.0;
 
-class PopupMenuController {
-  bool isOpen = false;
-  AnimatedValue position = new AnimatedValue(0.0);
+enum MenuState { Hidden, Opening, Open, Closing }
 
-  void open() {
-    isOpen = true;
-    position.animateTo(1.0, _kMenuOpenDuration);
+class PopupMenuController {
+  AnimatedValue position = new AnimatedValue(0.0);
+  MenuState _state = MenuState.Hidden;
+  MenuState get state => _state;
+
+  bool get canReact => (_state == MenuState.Opening) || (_state == MenuState.Open);
+
+  open() async {
+    if (_state != MenuState.Hidden)
+      return;
+    _state = MenuState.Opening;
+    if (await position.animateTo(1.0, _kMenuOpenDuration) == 1.0)
+      _state = MenuState.Open;
   }
 
-  Future close() {
-    return position.animateTo(0.0, _kMenuCloseDuration,
-        initialDelay: _kMenuCloseDelay).then((_) {
-      isOpen = false;
-    });
+  Future _closeState;
+  close() async {
+    var result = new Completer();
+    _closeState = result.future;
+    if ((_state == MenuState.Opening) || (_state == MenuState.Open)) {
+      _state = MenuState.Closing;
+      await position.animateTo(0.0, _kMenuCloseDuration, initialDelay: _kMenuCloseDelay);
+      _state = MenuState.Hidden;
+      _closeState = null;
+      result.complete();
+      return result.future;
+    }
+    assert(_closeState != null);
+    return _closeState;
   }
 }
 
@@ -77,8 +92,8 @@ class PopupMenu extends AnimatedComponent {
   void _measureSize() {
     setState(() {
       var root = getRoot();
-      _width = root.clientWidth;
-      _height = root.clientHeight;
+      _width = root.width.round();
+      _height = root.height.round();
     });
   }
 

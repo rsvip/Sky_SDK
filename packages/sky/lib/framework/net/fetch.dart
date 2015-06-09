@@ -4,11 +4,12 @@
 
 import '../shell.dart' as shell;
 import 'dart:async';
-import 'dart:sky' as sky;
 import 'dart:typed_data';
-import 'package:mojo/public/dart/core.dart' as core;
-import 'package:mojo/services/network/public/interfaces/network_service.mojom.dart';
-import 'package:mojo/services/network/public/interfaces/url_loader.mojom.dart';
+import 'package:mojo/core.dart' as core;
+import 'package:mojom/mojo/network_service.mojom.dart';
+import 'package:mojom/mojo/url_loader.mojom.dart';
+import 'package:mojom/mojo/url_request.mojom.dart';
+import 'package:mojom/mojo/url_response.mojom.dart';
 
 class Response {
   ByteData body;
@@ -20,25 +21,31 @@ class Response {
   }
 }
 
-Future<Response> fetch(String relativeUrl) async {
-  String url = new sky.URL(relativeUrl, sky.document.baseURI).href;
+Future<UrlResponse> fetch(UrlRequest request) async {
+  NetworkServiceProxy net = new NetworkServiceProxy.unbound();
+  shell.requestService("mojo:authenticated_network_service", net);
 
-  var net = new NetworkServiceProxy.unbound();
-  shell.requestService(net);
-
-  var loader = new UrlLoaderProxy.unbound();
+  UrlLoaderProxy loader = new UrlLoaderProxy.unbound();
   net.ptr.createUrlLoader(loader);
 
-  var request = new UrlRequest()
-      ..url = url
-      ..autoFollowRedirects = true;
-  var response = (await loader.ptr.start(request)).response;
+  UrlResponse response = (await loader.ptr.start(request)).response;
 
   loader.close();
   net.close();
+  return response;
+}
 
-  if (response.body == null)
-    return new Response(null);
+Future<UrlResponse> fetchUrl(String relativeUrl) async {
+  String url = Uri.base.resolve(relativeUrl).toString();
+  UrlRequest request = new UrlRequest()
+    ..url = url
+    ..autoFollowRedirects = true;
+  return fetch(request);
+}
+
+Future<Response> fetchBody(String relativeUrl) async {
+  UrlResponse response = await fetchUrl(relativeUrl);
+  if (response.body == null) return new Response(null);
 
   ByteData data = await core.DataPipeDrainer.drainHandle(response.body);
   return new Response(data);

@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:sky/framework/animation/scroll_behavior.dart';
 import 'package:sky/framework/components/fixed_height_scrollable.dart';
 import 'package:sky/framework/fn.dart';
 import 'stock_data.dart';
@@ -16,13 +15,16 @@ class Stocklist extends FixedHeightScrollable {
     Object key,
     this.stocks,
     this.query
-  }) : super(key: key, scrollBehavior: new OverscrollBehavior());
+  }) : super(key: key);
 
   List<UINode> buildItems(int start, int count) {
-    return stocks
+    var filteredStocks = stocks.where((stock) {
+      return query == null ||
+             stock.symbol.contains(new RegExp(query, caseSensitive: false));
+    });
+    itemCount = filteredStocks.length;
+    return filteredStocks
       .skip(start)
-      .where((stock) => query == null || stock.symbol.contains(
-          new RegExp(query, caseSensitive: false)))
       .take(count)
       .map((stock) => new StockRow(stock: stock))
       .toList(growable: false);

@@ -1,4 +1,4 @@
+## 0.0.6
 
-## 0.0.5+dart-summit-1
-
-  - Branched from mojo trunk to stabalize for Dart summit.
+  - Fix interface name capitalization bug in Dart bindings
+  - Add support for interface control messages (queryVersion, requireVersion)

@@ -7,8 +7,6 @@ import '../animation/animated_value.dart';
 import '../animation/curves.dart';
 import '../fn.dart';
 import '../theme/colors.dart';
-import '../theme/shadows.dart';
-import 'dart:async';
 import 'dart:math' as math;
 import 'dart:sky' as sky;
 import 'material.dart';
@@ -19,17 +17,30 @@ const double _kBaseSettleDurationMS = 246.0;
 const double _kMaxSettleDurationMS = 600.0;
 const Curve _kAnimationCurve = parabolicRise;
 
+typedef void DrawerStatusChangeHandler (bool showing);
+
 class DrawerController {
-  final AnimatedValue position = new AnimatedValue(-_kWidth);
+
+  DrawerController(this.onStatusChange) {
+    position = new AnimatedValue(-_kWidth, onChange: _checkValue);
+  }
+  final DrawerStatusChangeHandler onStatusChange;
+  AnimatedValue position;
+
+  bool _oldClosedState = true;
+  void _checkValue() {
+    var newClosedState = isClosed;
+    if (onStatusChange != null && _oldClosedState != newClosedState) {
+      onStatusChange(!newClosedState);
+      _oldClosedState = newClosedState;
+    }
+  }
 
   bool get isClosed => position.value == -_kWidth;
-
   bool get _isMostlyClosed => position.value <= -_kWidth / 2;
-
   void toggle(_) => _isMostlyClosed ? _open() : _close();
 
   void handleMaskTap(_) => _close();
-
   void handlePointerDown(_) => position.stop();
 
   void handlePointerMove(sky.PointerEvent event) {
@@ -73,7 +84,8 @@ class DrawerController {
     double distance = (targetPosition - position.value).abs();
     double duration = distance / velocityX;
 
-    position.animateTo(targetPosition, duration, curve: linear);
+    if (distance > 0)
+      position.animateTo(targetPosition, duration, curve: linear);
   }
 }
 
@@ -85,22 +97,13 @@ class Drawer extends AnimatedComponent {
 
   static final Style _maskStyle = new Style('''
     background-color: black;
-    will-change: opacity;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;'''
+    will-change: opacity;'''
   );
 
   static final Style _contentStyle = new Style('''
     background-color: ${Grey[50]};
     will-change: transform;
-    position: absolute;
-    width: ${_kWidth}px;
-    top: 0;
-    left: 0;
-    bottom: 0;'''
+    width: ${_kWidth}px;'''
   );
 
   List<UINode> children;
@@ -119,8 +122,6 @@ class Drawer extends AnimatedComponent {
   }
 
   UINode build() {
-    bool isClosed = _position <= -_kWidth;
-    String inlineStyle = 'display: ${isClosed ? 'none' : ''}';
     String maskInlineStyle = 'opacity: ${(_position / _kWidth + 1) * 0.5}';
     String contentInlineStyle = 'transform: translateX(${_position}px)';
 
@@ -142,9 +143,8 @@ class Drawer extends AnimatedComponent {
       level: level);
 
     return new EventListenerNode(
-      new Container(
+      new FillStackContainer(
         style: _style,
-        inlineStyle: inlineStyle,
         children: [ mask, content ]
       ),
       onPointerDown: controller.handlePointerDown,

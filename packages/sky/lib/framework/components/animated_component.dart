@@ -6,8 +6,13 @@ import '../animation/animated_value.dart';
 import '../fn.dart';
 import 'dart:mirrors';
 
-class AnimatedComponent extends Component {
+abstract class AnimatedComponent extends Component {
   AnimatedComponent({ Object key }) : super(key: key, stateful: true);
+
+  var _debugAnimatedFields = new Set<Symbol>();
+  bool _debugIsNotYetAnimated(Symbol s) {
+    return _debugAnimatedFields.add(s);
+  }
 
   animateField(AnimatedValue value, Symbol symbol) {
     // TODO(rafaelw): Assert symbol is present on |this|, is private and
@@ -15,6 +20,7 @@ class AnimatedComponent extends Component {
     var mirror = reflect(this);
     var subscription;
 
+    assert(_debugIsNotYetAnimated(symbol));
     mirror.setField(symbol, value.value);
 
     onDidMount(() {
