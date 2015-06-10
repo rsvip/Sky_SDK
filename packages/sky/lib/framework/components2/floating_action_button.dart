@@ -10,14 +10,17 @@ import 'dart:sky' as sky;
 import 'ink_well.dart';
 import 'material.dart';
 
+// TODO(eseidel): This needs to change based on device size?
+// http://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing
 const double _kSize = 56.0;
 
 class FloatingActionButton extends Component {
-  UINode content;
-  int level;
 
   FloatingActionButton({ Object key, this.content, this.level: 0 })
       : super(key: key);
+
+  final UINode content;
+  final int level;
 
   UINode build() {
     List<UINode> children = [];
@@ -43,4 +46,5 @@ class FloatingActionButton extends Component {
           child: new InkWell(children: children))),
       level: level);
   }
+
 }

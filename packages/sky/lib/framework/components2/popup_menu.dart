@@ -51,19 +51,28 @@ class PopupMenuController {
 }
 
 class PopupMenu extends AnimatedComponent {
+
+  PopupMenu({ Object key, this.controller, this.items, this.level })
+      : super(key: key) {
+    animate(controller.position, (double value) {
+      _position = value;
+    });
+  }
+
+  PopupMenuController controller;
   List<List<UINode>> items;
   int level;
-  PopupMenuController controller;
+
+  void syncFields(PopupMenu source) {
+    controller = source.controller;
+    items = source.items;
+    level = source.level;
+    super.syncFields(source);
+  }
 
   double _position;
   // int _width;
   // int _height;
-
-  PopupMenu({ Object key, this.controller, this.items, this.level })
-      : super(key: key) {
-    animateField(controller.position, #_position);
-    // onDidMount(_measureSize);
-  }
 
   double _opacityFor(int i) {
     if (_position == null || _position == 1.0)
@@ -82,6 +91,11 @@ class PopupMenu extends AnimatedComponent {
   //     opacity: ${math.min(1.0, _position * 3.0)};
   //     width: ${math.min(_width, _width * (0.5 + _position * 2.0))}px;
   //     height: ${math.min(_height, _height * _position * 1.5)}px;''';
+  // }
+
+  // void didMount() {
+  //   _measureSize();
+  //   super.didMount();
   // }
 
   // void _measureSize() {
@@ -111,4 +125,5 @@ class PopupMenu extends AnimatedComponent {
       )
     );
   }
+
 }

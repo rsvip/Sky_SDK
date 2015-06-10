@@ -7,9 +7,8 @@ import 'box.dart';
 import 'object.dart';
 
 class RenderInline extends RenderObject {
-  String data;
-
   RenderInline(this.data);
+  String data;
 }
 
 // Unfortunately, using full precision floating point here causes bad layouts
@@ -77,7 +76,7 @@ class RenderParagraph extends RenderBox {
   double _getIntrinsicHeight(BoxConstraints constraints) {
     _layout(constraints);
     return constraints.constrainHeight(
-        _applyFloatingPointHack(_layoutRoot.rootElement.height.ceilToDouble));
+        _applyFloatingPointHack(_layoutRoot.rootElement.height));
   }
 
   double getMinIntrinsicHeight(BoxConstraints constraints) {

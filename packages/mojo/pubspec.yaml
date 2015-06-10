@@ -2,6 +2,6 @@ author: Chromium Authors <mojo-dev@googlegroups.com>
 description: Dart files to support executing inside Mojo.
 homepage: https://github.com/domokit/mojo
 name: mojo
-version: 0.0.6
+version: 0.0.8
 dependencies:
   mojom: any

@@ -27,6 +27,8 @@ enum FlexJustifyContent {
   spaceAround,
 }
 
+typedef double _ChildSizingFunction(RenderBox child, BoxConstraints constraints);
+
 class RenderFlex extends RenderBox with ContainerRenderObjectMixin<RenderBox, FlexBoxParentData>,
                                         RenderBoxContainerDefaultsMixin<RenderBox, FlexBoxParentData> {
   // lays out RenderBox children using flexible layout
@@ -59,40 +61,181 @@ class RenderFlex extends RenderBox with ContainerRenderObjectMixin<RenderBox, Fl
       child.parentData = new FlexBoxParentData();
   }
 
-  // We don't currently support this for RenderFlex
+  double _getIntrinsicSize({ BoxConstraints constraints,
+                             FlexDirection sizingDirection,
+                             _ChildSizingFunction childSize }) {
+    // http://www.w3.org/TR/2015/WD-css-flexbox-1-20150514/#intrinsic-sizes
+    if (_direction == sizingDirection) {
+      // INTRINSIC MAIN SIZE
+      // Intrinsic main size is the smallest size the flex container can take
+      // while maintaining the min/max-content contributions of its flex items.
+      BoxConstraints childConstraints;
+      switch(_direction) {
+        case FlexDirection.horizontal:
+          childConstraints = new BoxConstraints(maxHeight: constraints.maxHeight);
+          break;
+        case FlexDirection.vertical:
+          childConstraints = new BoxConstraints(maxWidth: constraints.maxWidth);
+          break;
+      }
+
+      double totalFlex = 0.0;
+      double inflexibleSpace = 0.0;
+      double maxFlexFractionSoFar = 0.0;
+      RenderBox child = firstChild;
+      while (child != null) {
+        int flex = _getFlex(child);
+        totalFlex += flex;
+        if (flex > 0) {
+          double flexFraction = childSize(child, childConstraints) / _getFlex(child);
+          maxFlexFractionSoFar = math.max(maxFlexFractionSoFar, flexFraction);
+        } else {
+          inflexibleSpace += childSize(child, childConstraints);
+        }
+        child = child.parentData.nextSibling;
+      }
+      double mainSize = maxFlexFractionSoFar * totalFlex + inflexibleSpace;
+
+      // Ensure that we don't violate the given constraints with our result
+      switch(_direction) {
+        case FlexDirection.horizontal:
+          return constraints.constrainWidth(mainSize);
+        case FlexDirection.vertical:
+          return constraints.constrainHeight(mainSize);
+      }
+    } else {
+      // INTRINSIC CROSS SIZE
+      // The spec wants us to perform layout into the given available main-axis
+      // space and return the cross size. That's too expensive, so instead we
+      // size inflexible children according to their max intrinsic size in the
+      // main direction and use those constraints to determine their max
+      // intrinsic size in the cross direction. We don't care if the caller
+      // asked for max or min -- the answer is always computed using the
+      // max size in the main direction.
+
+      double availableMainSpace;
+      BoxConstraints childConstraints;
+      switch(_direction) {
+        case FlexDirection.horizontal:
+          childConstraints = new BoxConstraints(maxWidth: constraints.maxWidth);
+          availableMainSpace = innerConstraints.maxWidth;
+          break;
+        case FlexDirection.vertical:
+          childConstraints = new BoxConstraints(maxHeight: constraints.maxHeight);
+          availableMainSpace = innerConstraints.maxHeight;
+          break;
+      }
+
+      // Get inflexible space using the max in the main direction
+      int totalFlex = 0;
+      double inflexibleSpace = 0.0;
+      double maxCrossSize = 0.0;
+      RenderBox child = firstChild;
+      while (child != null) {
+        int flex = _getFlex(child);
+        totalFlex += flex;
+        double mainSize;
+        double crossSize;
+        if (flex == 0) {
+          switch (_direction) {
+              case FlexDirection.horizontal:
+                mainSize = child.getMaxIntrinsicWidth(childConstraints);
+                BoxConstraints widthConstraints = 
+                  new BoxConstraints(minWidth: mainSize, maxWidth: mainSize);
+                crossSize = child.getMaxIntrinsicHeight(widthConstraints);
+                break;
+              case FlexDirection.vertical:
+                mainSize = child.getMaxIntrinsicHeight(childConstraints);
+                BoxConstraints heightConstraints = 
+                  new BoxConstraints(minWidth: mainSize, maxWidth: mainSize);
+                crossSize = child.getMaxIntrinsicWidth(heightConstraints);
+                break;
+          }
+          inflexibleSpace += mainSize;
+          maxCrossSize = math.max(maxCrossSize, crossSize);
+        }
+        child = child.parentData.nextSibling;
+      }
+
+      // Determine the spacePerFlex by allocating the remaining available space
+      double spacePerFlex = (availableMainSpace - inflexibleSpace) / totalFlex;
+
+      // Size remaining items, find the maximum cross size
+      child = firstChild;
+      while (child != null) {
+        int flex = _getFlex(child);
+        if (flex > 0) {
+          double childMainSize = spacePerFlex * flex;
+          double crossSize;
+          switch (_direction) {
+            case FlexDirection.horizontal:
+              BoxConstraints childConstraints = 
+                new BoxConstraints(minWidth: childMainSize, maxWidth: childMainSize);
+              crossSize = child.getMaxIntrinsicHeight(childConstraints);
+              break;
+            case FlexDirection.vertical:
+              BoxConstraints childConstraints =
+                new BoxConstraints(minHeight: childMainSize, maxHeight: childMainSize);
+              crossSize = child.getMaxIntrinsicWidth(childConstraints);
+              break;
+          }
+          maxCrossSize = math.max(maxCrossSize, crossSize);
+        }
+        child = child.parentData.nextSibling;
+      }
+
+      // Ensure that we don't violate the given constraints with our result
+      switch(_direction) {
+        case FlexDirection.horizontal:
+          return innerConstraints.constrainHeight(maxCrossSize);
+        case FlexDirection.vertical:
+          return innerConstraints.constrainWidth(maxCrossSize);
+      }
+    }
+  }
+
   double getMinIntrinsicWidth(BoxConstraints constraints) {
-    assert(false);
-    return constraints.constrainWidth(0.0);
+    return _getIntrinsicSize(
+      constraints: constraints,
+      sizingDirection: FlexDirection.horizontal,
+      childSize: (c, innerConstraints) => c.getMinIntrinsicWidth(innerConstraints)
+    );
   }
 
-  // We don't currently support this for RenderFlex
   double getMaxIntrinsicWidth(BoxConstraints constraints) {
-    assert(false);
-    return constraints.constrainWidth(0.0);
+    return _getIntrinsicSize(
+      constraints: constraints,
+      sizingDirection: FlexDirection.horizontal,
+      childSize: (c, innerConstraints) => c.getMaxIntrinsicWidth(innerConstraints)
+    );
   }
 
-  // We don't currently support this for RenderFlex
   double getMinIntrinsicHeight(BoxConstraints constraints) {
-    assert(false);
-    return constraints.constrainHeight(0.0);
+    return _getIntrinsicSize(
+      constraints: constraints,
+      sizingDirection: FlexDirection.vertical,
+      childSize: (c, innerConstraints) => c.getMinIntrinsicHeight(innerConstraints)
+    );
   }
 
-  // We don't currently support this for RenderFlex
   double getMaxIntrinsicHeight(BoxConstraints constraints) {
-    assert(false);
-    return constraints.constrainHeight(0.0);
-  }
-
-  bool get sizedByParent => true;
-  void performResize() {
-    size = constraints.constrain(new Size(constraints.maxWidth, constraints.maxHeight));
-    assert(size.height < double.INFINITY);
-    assert(size.width < double.INFINITY);
+    return _getIntrinsicSize(
+      constraints: constraints,
+      sizingDirection: FlexDirection.vertical,
+      childSize: (c, innerConstraints) => c.getMaxIntrinsicHeight(innerConstraints));
   }
 
   int _getFlex(RenderBox child) {
     assert(child.parentData is FlexBoxParentData);
     return child.parentData.flex != null ? child.parentData.flex : 0;
+  }
+
+  double _getCrossSize(RenderBox child) {
+    return (_direction == FlexDirection.horizontal) ? child.size.height : child.size.width;
+  }
+
+  double _getMainSize(RenderBox child) {
+    return (_direction == FlexDirection.horizontal) ? child.size.width : child.size.height;
   }
 
   void performLayout() {
@@ -101,7 +244,9 @@ class RenderFlex extends RenderBox with ContainerRenderObjectMixin<RenderBox, Fl
     int totalFlex = 0;
     int totalChildren = 0;
     assert(constraints != null);
-    double freeSpace = (_direction == FlexDirection.horizontal) ? constraints.maxWidth : constraints.maxHeight;
+    final double mainSize = (_direction == FlexDirection.horizontal) ? constraints.maxWidth : constraints.maxHeight;
+    double crossSize = 0.0;  // This will be determined after laying out the children
+    double freeSpace = mainSize;
     RenderBox child = firstChild;
     while (child != null) {
       totalChildren++;
@@ -112,7 +257,8 @@ class RenderFlex extends RenderBox with ContainerRenderObjectMixin<RenderBox, Fl
         BoxConstraints innerConstraints = new BoxConstraints(maxHeight: constraints.maxHeight,
                                                              maxWidth: constraints.maxWidth);
         child.layout(innerConstraints, parentUsesSize: true);
-        freeSpace -= (_direction == FlexDirection.horizontal) ? child.size.width : child.size.height;
+        freeSpace -= _getMainSize(child);
+        crossSize = math.max(crossSize, _getCrossSize(child));
       }
       child = child.parentData.nextSibling;
     }
@@ -139,7 +285,8 @@ class RenderFlex extends RenderBox with ContainerRenderObjectMixin<RenderBox, Fl
             break;
         }
         child.layout(innerConstraints, parentUsesSize: true);
-        usedSpace += _direction == FlexDirection.horizontal ? child.size.width : child.size.height;
+        usedSpace += _getMainSize(child);
+        crossSize = math.max(crossSize, _getCrossSize(child));
       }
       child = child.parentData.nextSibling;
     }
@@ -172,21 +319,31 @@ class RenderFlex extends RenderBox with ContainerRenderObjectMixin<RenderBox, Fl
         break;
     }
 
+    switch (_direction) {
+      case FlexDirection.horizontal:
+        size = constraints.constrain(new Size(mainSize, crossSize));
+        crossSize = size.height;
+        break;
+      case FlexDirection.vertical:
+        size = constraints.constrain(new Size(crossSize, mainSize));
+        crossSize = size.width;
+        break;
+    }
+
     // Position elements. For now, center the flex items in the cross direction
-    double mainDimPosition = leadingSpace;
+    double childMainPosition = leadingSpace;
     child = firstChild;
     while (child != null) {
+      double childCrossPosition = crossSize / 2.0 - _getCrossSize(child) / 2.0;
       switch (_direction) {
         case FlexDirection.horizontal:
-          child.parentData.position = new Point(mainDimPosition, size.height / 2.0 - child.size.height / 2.0);
-          mainDimPosition += child.size.width;
+          child.parentData.position = new Point(childMainPosition, childCrossPosition);
           break;
         case FlexDirection.vertical:
-          child.parentData.position = new Point(size.width / 2.0 - child.size.width / 2.0, mainDimPosition);
-          mainDimPosition += child.size.height;
+          child.parentData.position = new Point(childCrossPosition, childMainPosition);
           break;
       }
-      mainDimPosition += betweenSpace;
+      childMainPosition += _getMainSize(child) + betweenSpace;
       child = child.parentData.nextSibling;
     }
   }

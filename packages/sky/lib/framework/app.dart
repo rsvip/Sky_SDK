@@ -18,18 +18,20 @@ class AppView {
 
   AppView(RenderBox root) {
     sky.view.setEventCallback(_handleEvent);
+    sky.view.setMetricsChangedCallback(_handleMetricsChanged);
     scheduler.init();
     scheduler.addPersistentFrameCallback(_beginFrame);
 
     _renderView = new RenderView(child: root);
     _renderView.attach();
-    _renderView.layout(new ViewConstraints(width: sky.view.width,
-                                           height: sky.view.height));
-
-    scheduler.ensureVisualUpdate();
+    _renderView.rootConstraints = _viewConstraints;
+    _renderView.scheduleInitialLayout();
   }
 
   RenderView _renderView;
+
+  ViewConstraints get _viewConstraints =>
+      new ViewConstraints(width: sky.view.width, height: sky.view.height);
 
   Map<int, PointerState> _stateForPointer = new Map<int, PointerState>();
 
@@ -54,6 +56,10 @@ class AppView {
       _renderView.hitTest(result, position: new Point(event.x, event.y));
       dispatchEvent(event, result);
     }
+  }
+
+  void _handleMetricsChanged() {
+    _renderView.rootConstraints = _viewConstraints;
   }
 
   PointerState _createStateForPointer(sky.PointerEvent event, Point position) {
@@ -93,8 +99,8 @@ class AppView {
 
   void dispatchEvent(sky.Event event, HitTestResult result) {
     assert(result != null);
-    for (RenderObject node in result.path.reversed)
-      node.handleEvent(event);
+    for (HitTestEntry entry in result.path.reversed)
+      entry.target.handleEvent(event, entry);
   }
 
   String toString() => 'Render Tree:\n${_renderView}';

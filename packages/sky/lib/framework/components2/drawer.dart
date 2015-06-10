@@ -13,6 +13,19 @@ import 'dart:sky' as sky;
 import 'material.dart';
 import 'package:vector_math/vector_math.dart';
 
+// TODO(eseidel): Draw width should vary based on device size:
+// http://www.google.com/design/spec/layout/structure.html#structure-side-nav
+
+// Mobile:
+// Width = Screen width − 56 dp
+// Maximum width: 320dp
+// Maximum width applies only when using a left nav. When using a right nav,
+// the panel can cover the full width of the screen.
+
+// Desktop/Tablet:
+// Maximum width for a left nav is 400dp.
+// The right nav can vary depending on content.
+
 const double _kWidth = 304.0;
 const double _kMinFlingVelocity = 0.4;
 const double _kBaseSettleDurationMS = 246.0;
@@ -89,14 +102,10 @@ class DrawerController {
     if (distance > 0)
       position.animateTo(targetPosition, duration, curve: linear);
   }
+
 }
 
 class Drawer extends AnimatedComponent {
-  List<UINode> children;
-  int level;
-  DrawerController controller;
-
-  double _position;
 
   Drawer({
     Object key,
@@ -104,8 +113,23 @@ class Drawer extends AnimatedComponent {
     this.children,
     this.level: 0
   }) : super(key: key) {
-    animateField(controller.position, #_position);
+    animate(controller.position, (double value) {
+      _position = value;
+    });
   }
+
+  List<UINode> children;
+  int level;
+  DrawerController controller;
+
+  void syncFields(Drawer source) {
+    children = source.children;
+    level = source.level;
+    controller = source.controller;
+    super.syncFields(source);
+  }
+
+  double _position;
 
   UINode build() {
     Matrix4 transform = new Matrix4.identity();
@@ -139,4 +163,5 @@ class Drawer extends AnimatedComponent {
       onPointerCancel: controller.handlePointerCancel
     );
   }
+
 }

@@ -9,7 +9,7 @@ import 'generators.dart';
 typedef void Callback ();
 
 class AnimatedValue {
-  StreamController _controller = new StreamController.broadcast(sync: true);
+  StreamController<double> _controller = new StreamController<double>.broadcast(sync: true);
   AnimationGenerator _animation;
   Completer _completer;
   double _value;
@@ -23,6 +23,7 @@ class AnimatedValue {
   // A stream of change in value from |initial|. The stream does not
   // contain the initial value. Consumers should check the initial value via
   // the |value| accessor.
+  // TODO(ianh): Rename this to valueStream once we've landed the fn2 fork
   Stream<double> get onValueChanged => _controller.stream;
 
   double get value => _value;

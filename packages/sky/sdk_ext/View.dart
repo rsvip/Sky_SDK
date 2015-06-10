@@ -18,6 +18,7 @@ abstract class View extends
 
     // Methods
     void setEventCallback(EventCallback callback) native "View_setEventCallback_Callback";
+    void setMetricsChangedCallback(VoidCallback callback) native "View_setMetricsChangedCallback_Callback";
     void setBeginFrameCallback(BeginFrameCallback callback) native "View_setBeginFrameCallback_Callback";
     void scheduleFrame() native "View_scheduleFrame_Callback";
 

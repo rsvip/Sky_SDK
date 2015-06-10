@@ -14,6 +14,18 @@ import 'dart:sky' as sky;
 typedef void ValueChanged(value);
 
 class Input extends Component {
+
+  Input({Object key,
+         this.placeholder,
+         this.onChanged,
+         this.focused})
+      : super(key: key, stateful: true) {
+    _editableValue = new EditableString(
+      text: _value,
+      onUpdated: _handleTextUpdated
+    );
+  }
+
   // static final Style _style = new Style('''
   //   transform: translateX(0);
   //   margin: 8px;
@@ -36,26 +48,19 @@ class Input extends Component {
   //   padding: 7px;
   //   border-bottom: 2px solid ${Blue[500]};''';
 
-  ValueChanged onChanged;
   String placeholder;
+  ValueChanged onChanged;
   bool focused = false;
+
+  void syncFields(Input source) {
+    placeholder = source.placeholder;
+    onChanged = source.onChanged;
+    focused = source.focused;
+  }
 
   String _value = '';
   bool _isAttachedToKeyboard = false;
   EditableString _editableValue;
-
-  Input({Object key,
-         this.placeholder,
-         this.onChanged,
-         this.focused})
-      : super(key: key, stateful: true) {
-    _editableValue = new EditableString(text: _value,
-                                        onUpdated: _handleTextUpdated);
-    onDidUnmount(() {
-      if (_isAttachedToKeyboard)
-        keyboard.hide();
-    });
-  }
 
   void _handleTextUpdated() {
     scheduleBuild();
@@ -93,4 +98,11 @@ class Input extends Component {
       onPointerDown: (sky.Event e) => keyboard.showByRequest()
     );
   }
+
+  void didUnmount() {
+    if (_isAttachedToKeyboard)
+      keyboard.hide();
+    super.didUnmount();
+  }
+
 }

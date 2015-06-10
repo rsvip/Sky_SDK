@@ -14,10 +14,16 @@ typedef void ValueChanged(value);
 
 class Checkbox extends ButtonBase {
 
+  Checkbox({ Object key, this.onChanged, this.checked }) : super(key: key);
+
   bool checked;
   ValueChanged onChanged;
 
-  Checkbox({ Object key, this.onChanged, this.checked }) : super(key: key);
+  void syncFields(Checkbox source) {
+    checked = source.checked;
+    onChanged = source.onChanged;
+    super.syncFields(source);
+  }
 
   void _handleClick(sky.Event e) {
     onChanged(!checked);
@@ -37,7 +43,6 @@ class Checkbox extends ButtonBase {
           callback: (sky.Canvas canvas) {
 
             sky.Paint paint = new sky.Paint()..color = color
-                                             ..isAntiAlias = true
                                              ..strokeWidth = 2.0;
 
             // Draw the outer rrect
@@ -63,4 +68,5 @@ class Checkbox extends ButtonBase {
       onGestureTap: _handleClick
     );
   }
+
 }

@@ -3,14 +3,11 @@
 // found in the LICENSE file.
 
 import '../fn2.dart';
-import '../theme/view_configuration.dart';
+import '../rendering/flex.dart';
+import '../theme2/view_configuration.dart';
 import '../theme2/shadows.dart';
 
 class ToolBar extends Component {
-  UINode left;
-  UINode center;
-  List<UINode> right;
-  Color backgroundColor;
 
   ToolBar({
     String key,
@@ -19,6 +16,11 @@ class ToolBar extends Component {
     this.right,
     this.backgroundColor
   }) : super(key: key);
+
+  final UINode left;
+  final UINode center;
+  final List<UINode> right;
+  final Color backgroundColor;
 
   UINode build() {
     List<UINode> children = [
@@ -33,17 +35,22 @@ class ToolBar extends Component {
     if (right != null)
       children.addAll(right);
 
+    // TODO(hansmuller): use align-items:flex-end when FlexContainer supports it.
+    UINode bottomJustifiedChild = new FlexContainer(
+      direction: FlexDirection.vertical,
+      justifyContent: FlexJustifyContent.flexEnd,
+      children: [new Container(
+          child: new FlexContainer(children: children),
+          height: kToolBarHeight)]);
+
     return new Container(
-      child: new FlexContainer(
-        children: children,
-        direction: FlexDirection.horizontal
-      ),
-      height: 56.0,
-      padding: new EdgeDims(kStatusBarHeight.toDouble(), 8.0, 0.0, 8.0),
+      child: bottomJustifiedChild,
+      padding: new EdgeDims.symmetric(horizontal: 8.0),
       decoration: new BoxDecoration(
         backgroundColor: backgroundColor,
         boxShadow: Shadow[2]
       )
     );
   }
+
 }

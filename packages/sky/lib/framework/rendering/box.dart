@@ -133,12 +133,19 @@ class BoxConstraints {
   final double minHeight;
   final double maxHeight;
 
+  static double _clamp({double min: 0.0, double value: 0.0, double max: double.INFINITY}) {
+    assert(min != null);
+    assert(value != null);
+    assert(max != null);
+    return math.max(min, math.min(max, value));
+  }
+
   double constrainWidth(double width) {
-    return clamp(min: minWidth, max: maxWidth, value: width);
+    return _clamp(min: minWidth, max: maxWidth, value: width);
   }
 
   double constrainHeight(double height) {
-    return clamp(min: minHeight, max: maxHeight, value: height);
+    return _clamp(min: minHeight, max: maxHeight, value: height);
   }
 
   Size constrain(Size size) {
@@ -156,6 +163,13 @@ class BoxConstraints {
     return value;
   }
   String toString() => "BoxConstraints($minWidth<=w<$maxWidth, $minHeight<=h<$maxHeight)";
+}
+
+class BoxHitTestEntry extends HitTestEntry {
+  const BoxHitTestEntry(RenderBox target, this.localPosition)
+    : super(target);
+
+  final Point localPosition;
 }
 
 class BoxParentData extends ParentData {
@@ -218,7 +232,7 @@ abstract class RenderBox extends RenderObject {
 
   bool hitTest(HitTestResult result, { Point position }) {
     hitTestChildren(result, position: position);
-    result.add(this);
+    result.add(new BoxHitTestEntry(this, position));
     return true;
   }
   void hitTestChildren(HitTestResult result, { Point position }) { }
@@ -549,13 +563,12 @@ class RenderImage extends RenderBox {
     markNeedsLayout();
   }
 
-  void performLayout() {
+  Size _sizeForConstraints(BoxConstraints innerConstraints) {
     // If there's no image, we can't size ourselves automatically
     if (_image == null) {
       double width = requestedSize.width == null ? 0.0 : requestedSize.width;
       double height = requestedSize.height == null ? 0.0 : requestedSize.height;
-      size = constraints.constrain(new Size(width, height));
-      return;
+      return constraints.constrain(new Size(width, height));
     }
 
     // If neither height nor width are specified, use inherent image dimensions
@@ -563,17 +576,41 @@ class RenderImage extends RenderBox {
     // maintain the aspect ratio
     if (requestedSize.width == null) {
       if (requestedSize.height == null) {
-        size = constraints.constrain(new Size(_image.width.toDouble(), _image.height.toDouble()));
+        return constraints.constrain(new Size(_image.width.toDouble(), _image.height.toDouble()));
       } else {
         double width = requestedSize.height * _image.width / _image.height;
-        size = constraints.constrain(new Size(width, requestedSize.height));
+        return constraints.constrain(new Size(width, requestedSize.height));
       }
     } else if (requestedSize.height == null) {
       double height = requestedSize.width * _image.height / _image.width;
-      size = constraints.constrain(new Size(requestedSize.width, height));
+      return constraints.constrain(new Size(requestedSize.width, height));
     } else {
-      size = constraints.constrain(requestedSize);
+      return constraints.constrain(requestedSize);
     }
+  }
+
+  double getMinIntrinsicWidth(BoxConstraints constraints) {
+    if (requestedSize.width == null && requestedSize.height == null)
+      return constraints.constrainWidth(0.0);
+    return _sizeForConstraints(constraints).width;
+  }
+
+  double getMaxIntrinsicWidth(BoxConstraints constraints) {
+    return _sizeForConstraints(constraints).width;
+  }
+
+  double getMinIntrinsicHeight(BoxConstraints constraints) {
+    if (requestedSize.width == null && requestedSize.height == null)
+      return constraints.constrainHeight(0.0);
+    return _sizeForConstraints(constraints).height;
+  }
+
+  double getMaxIntrinsicHeight(BoxConstraints constraints) {
+    return _sizeForConstraints(constraints).height;
+  }
+
+  void performLayout() {
+    size = _sizeForConstraints(constraints);
   }
 
   void paint(RenderObjectDisplayList canvas) {
@@ -620,11 +657,13 @@ class Border {
     this.bottom: BorderSide.none,
     this.left: BorderSide.none
   });
+
   const Border.all(BorderSide side) :
     top = side,
     right = side,
     bottom = side,
     left = side;
+
   final BorderSide top;
   final BorderSide right;
   final BorderSide bottom;
@@ -655,19 +694,71 @@ class BoxShadow {
   String toString() => 'BoxShadow($color, $offset, $blur)';
 }
 
+abstract class Gradient {
+  sky.Shader createShader();
+}
+
+class LinearGradient extends Gradient {
+  LinearGradient({
+    this.endPoints,
+    this.colors,
+    this.colorStops,
+    this.tileMode: sky.TileMode.clamp
+  });
+
+  String toString() =>
+      'LinearGradient($endPoints, $colors, $colorStops, $tileMode)';
+
+  sky.Shader createShader() {
+    return new sky.Gradient.Linear(this.endPoints, this.colors, this.colorStops,
+                                   this.tileMode);
+  }
+
+  final List<Point> endPoints;
+  final List<Color> colors;
+  final List<double> colorStops;
+  final sky.TileMode tileMode;
+}
+
+class RadialGradient extends Gradient {
+  RadialGradient({
+    this.center,
+    this.radius,
+    this.colors,
+    this.colorStops,
+    this.tileMode: sky.TileMode.clamp
+  });
+
+  String toString() =>
+      'RadialGradient($center, $radius, $colors, $colorStops, $tileMode)';
+
+  sky.Shader createShader() {
+    return new sky.Gradient.Radial(this.center, this.radius, this.colors,
+                                   this.colorStops, this.tileMode);
+  }
+
+  final Point center;
+  final double radius;
+  final List<Color> colors;
+  final List<double> colorStops;
+  final sky.TileMode tileMode;
+}
+
 // This must be immutable, because we won't notice when it changes
 class BoxDecoration {
   const BoxDecoration({
     this.backgroundColor,
     this.border,
     this.borderRadius,
-    this.boxShadow
+    this.boxShadow,
+    this.gradient
   });
 
   final Color backgroundColor;
   final double borderRadius;
   final Border border;
   final List<BoxShadow> boxShadow;
+  final Gradient gradient;
 
   String toString([String prefix = '']) {
     List<String> result = [];
@@ -679,6 +770,8 @@ class BoxDecoration {
       result.add('${prefix}borderRadius: $borderRadius');
     if (boxShadow != null)
       result.add('${prefix}boxShadow: ${boxShadow.map((shadow) => shadow.toString())}');
+    if (gradient != null)
+      result.add('${prefix}gradient: $gradient');
     if (result.isEmpty)
       return '${prefix}<no decorations specified>';
     return result.join('\n');
@@ -720,6 +813,9 @@ class RenderDecoratedBox extends RenderProxyBox {
         paint.setDrawLooper(builder.build());
       }
 
+      if (_decoration.gradient != null)
+        paint.setShader(_decoration.gradient.createShader());
+
       _cachedBackgroundPaint = paint;
     }
 
@@ -730,7 +826,8 @@ class RenderDecoratedBox extends RenderProxyBox {
     assert(size.width != null);
     assert(size.height != null);
 
-    if (_decoration.backgroundColor != null || _decoration.boxShadow != null) {
+    if (_decoration.backgroundColor != null || _decoration.boxShadow != null ||
+        _decoration.gradient != null) {
       Rect rect = new Rect.fromLTRB(0.0, 0.0, size.width, size.height);
       if (_decoration.borderRadius == null)
         canvas.drawRect(rect, _backgroundPaint);
@@ -947,19 +1044,25 @@ class RenderView extends RenderObject with RenderObjectWithChildMixin<RenderBox>
   int get orientation => _orientation;
   Duration timeForRotation;
 
-  ViewConstraints get constraints => super.constraints as ViewConstraints;
-  bool get sizedByParent => true;
-  void performResize() {
-    if (constraints.orientation != _orientation) {
+  ViewConstraints _rootConstraints;
+  ViewConstraints get rootConstraints => _rootConstraints;
+  void set rootConstraints(ViewConstraints value) {
+    if (_rootConstraints == value)
+      return;
+    _rootConstraints = value;
+    markNeedsLayout();
+  }
+
+  void performLayout() {
+    if (_rootConstraints.orientation != _orientation) {
       if (_orientation != null && child != null)
-        child.rotate(oldAngle: _orientation, newAngle: constraints.orientation, time: timeForRotation);
-      _orientation = constraints.orientation;
+        child.rotate(oldAngle: _orientation, newAngle: _rootConstraints.orientation, time: timeForRotation);
+      _orientation = _rootConstraints.orientation;
     }
-    _size = new Size(constraints.width, constraints.height);
+    _size = new Size(_rootConstraints.width, _rootConstraints.height);
     assert(_size.height < double.INFINITY);
     assert(_size.width < double.INFINITY);
-  }
-  void performLayout() {
+
     if (child != null) {
       child.layout(new BoxConstraints.tight(_size));
       assert(child.size.width == width);
@@ -977,7 +1080,7 @@ class RenderView extends RenderObject with RenderObjectWithChildMixin<RenderBox>
       if (childBounds.contains(position))
         child.hitTest(result, position: position);
     }
-    result.add(this);
+    result.add(new HitTestEntry(this));
     return true;
   }
 

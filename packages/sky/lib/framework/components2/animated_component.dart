@@ -4,37 +4,48 @@
 
 import '../animation/animated_value.dart';
 import '../fn2.dart';
-import 'dart:mirrors';
+import 'dart:async';
+
+typedef void SetterFunction(double value);
+
+class _AnimationEntry {
+  _AnimationEntry(this.value, this.setter);
+  final AnimatedValue value;
+  final SetterFunction setter;
+  StreamSubscription<double> subscription;
+}
 
 abstract class AnimatedComponent extends Component {
+
   AnimatedComponent({ Object key }) : super(key: key, stateful: true);
 
-  var _debugAnimatedFields = new Set<Symbol>();
-  bool _debugIsNotYetAnimated(Symbol s) {
-    return _debugAnimatedFields.add(s);
+  void syncFields(AnimatedComponent source) { }
+
+  List<_AnimationEntry> _animatedFields = new List<_AnimationEntry>();
+
+  animate(AnimatedValue value, SetterFunction setter) {
+    assert(!mounted);
+    setter(value.value);
+    _animatedFields.add(new _AnimationEntry(value, setter));
   }
 
-  animateField(AnimatedValue value, Symbol symbol) {
-    // TODO(rafaelw): Assert symbol is present on |this|, is private and
-    // is over the same parameterized type as the animated value.
-    var mirror = reflect(this);
-    var subscription;
-
-    assert(_debugIsNotYetAnimated(symbol));
-    mirror.setField(symbol, value.value);
-
-    onDidMount(() {
-      subscription = value.onValueChanged.listen((_) {
-        mirror.setField(symbol, value.value);
+  void didMount() {
+    for (_AnimationEntry entry in _animatedFields) {
+      entry.subscription = entry.value.onValueChanged.listen((_) {
+        entry.setter(entry.value.value);
         scheduleBuild();
       });
-    });
-
-    onDidUnmount(() {
-      if (subscription != null) {
-        subscription.cancel();
-        subscription = null;
-      }
-    });
+    }
+    super.didMount();
   }
+
+  void didUnmount() {
+    for (_AnimationEntry entry in _animatedFields) {
+      assert(entry.subscription != null);
+      entry.subscription.cancel();
+      entry.subscription = null;
+    }
+    super.didUnmount();
+  }
+
 }

@@ -7,6 +7,9 @@ import 'ink_well.dart';
 import 'material.dart';
 
 class Button extends Component {
+
+  Button({ Object key, this.content, this.level }) : super(key: key);
+
   static final Style _style = new Style('''
     -webkit-user-select: none;
     height: 36px;
@@ -16,10 +19,8 @@ class Button extends Component {
     border-radius: 2px;'''
   );
 
-  UINode content;
-  int level;
-
-  Button({ Object key, this.content, this.level }) : super(key: key);
+  final UINode content;
+  final int level;
 
   UINode build() {
     return new StyleNode(
@@ -28,4 +29,5 @@ class Button extends Component {
         level: level),
       _style);
   }
+
 }

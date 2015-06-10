@@ -80,11 +80,110 @@ class ViewportMetrics extends bindings.Struct {
   }
 }
 
-class NativeViewportCreateParams extends bindings.Struct {
+class SurfaceConfiguration extends bindings.Struct {
   static const List<bindings.StructDataHeader> kVersions = const [
     const bindings.StructDataHeader(16, 0)
   ];
+  int redBits = 8;
+  int greenBits = 8;
+  int blueBits = 8;
+  int alphaBits = 8;
+  int depthBits = 0;
+  int stencilBits = 0;
+
+  SurfaceConfiguration() : super(kVersions.last.size);
+
+  static SurfaceConfiguration deserialize(bindings.Message message) {
+    var decoder = new bindings.Decoder(message);
+    var result = decode(decoder);
+    decoder.excessHandles.forEach((h) => h.close());
+    return result;
+  }
+
+  static SurfaceConfiguration decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    SurfaceConfiguration result = new SurfaceConfiguration();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size == kVersions[i].size) {
+            // Found a match.
+            break;
+          }
+          throw new bindings.MojoCodecError(
+              'Header size doesn\'t correspond to known version size.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.redBits = decoder0.decodeUint8(8);
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.greenBits = decoder0.decodeUint8(9);
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.blueBits = decoder0.decodeUint8(10);
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.alphaBits = decoder0.decodeUint8(11);
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.depthBits = decoder0.decodeUint8(12);
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.stencilBits = decoder0.decodeUint8(13);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
+    
+    encoder0.encodeUint8(redBits, 8);
+    
+    encoder0.encodeUint8(greenBits, 9);
+    
+    encoder0.encodeUint8(blueBits, 10);
+    
+    encoder0.encodeUint8(alphaBits, 11);
+    
+    encoder0.encodeUint8(depthBits, 12);
+    
+    encoder0.encodeUint8(stencilBits, 13);
+  }
+
+  String toString() {
+    return "SurfaceConfiguration("
+           "redBits: $redBits" ", "
+           "greenBits: $greenBits" ", "
+           "blueBits: $blueBits" ", "
+           "alphaBits: $alphaBits" ", "
+           "depthBits: $depthBits" ", "
+           "stencilBits: $stencilBits" ")";
+  }
+}
+
+class NativeViewportCreateParams extends bindings.Struct {
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   geometry_mojom.Size size = null;
+  SurfaceConfiguration requestedConfiguration = null;
 
   NativeViewportCreateParams() : super(kVersions.last.size);
 
@@ -124,6 +223,11 @@ class NativeViewportCreateParams extends bindings.Struct {
       var decoder1 = decoder0.decodePointer(8, false);
       result.size = geometry_mojom.Size.decode(decoder1);
     }
+    if (mainDataHeader.version >= 0) {
+      
+      var decoder1 = decoder0.decodePointer(16, true);
+      result.requestedConfiguration = SurfaceConfiguration.decode(decoder1);
+    }
     return result;
   }
 
@@ -131,11 +235,14 @@ class NativeViewportCreateParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeStruct(size, 8, false);
+    
+    encoder0.encodeStruct(requestedConfiguration, 16, true);
   }
 
   String toString() {
     return "NativeViewportCreateParams("
-           "size: $size" ")";
+           "size: $size" ", "
+           "requestedConfiguration: $requestedConfiguration" ")";
   }
 }
 
@@ -754,7 +861,7 @@ const String NativeViewportName =
       'mojo::NativeViewport';
 
 abstract class NativeViewport {
-  Future<NativeViewportCreateResponseParams> create(geometry_mojom.Size size,[Function responseFactory = null]);
+  Future<NativeViewportCreateResponseParams> create(geometry_mojom.Size size,SurfaceConfiguration requestedConfiguration,[Function responseFactory = null]);
   void show();
   void hide();
   void close();
@@ -828,10 +935,11 @@ class _NativeViewportProxyCalls implements NativeViewport {
   NativeViewportProxyImpl _proxyImpl;
 
   _NativeViewportProxyCalls(this._proxyImpl);
-    Future<NativeViewportCreateResponseParams> create(geometry_mojom.Size size,[Function responseFactory = null]) {
+    Future<NativeViewportCreateResponseParams> create(geometry_mojom.Size size,SurfaceConfiguration requestedConfiguration,[Function responseFactory = null]) {
       assert(_proxyImpl.isBound);
       var params = new NativeViewportCreateParams();
       params.size = size;
+      params.requestedConfiguration = requestedConfiguration;
       return _proxyImpl.sendMessageWithRequestId(
           params,
           kNativeViewport_create_name,
@@ -975,7 +1083,7 @@ class NativeViewportStub extends bindings.Stub {
       case kNativeViewport_create_name:
         var params = NativeViewportCreateParams.deserialize(
             message.payload);
-        return _impl.create(params.size,_NativeViewportCreateResponseParamsFactory).then((response) {
+        return _impl.create(params.size,params.requestedConfiguration,_NativeViewportCreateResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,

@@ -23,13 +23,6 @@ class ParentData {
 
 const kLayoutDirections = 4;
 
-double clamp({double min: 0.0, double value: 0.0, double max: double.INFINITY}) {
-  assert(min != null);
-  assert(value != null);
-  assert(max != null);
-  return math.max(min, math.min(max, value));
-}
-
 class RenderObjectDisplayList extends sky.PictureRecorder {
   RenderObjectDisplayList(double width, double height) : super(width, height);
   void paintChild(RenderObject child, Point position) {
@@ -119,6 +112,14 @@ abstract class RenderObject extends AbstractNode {
       scheduler.ensureVisualUpdate();
     }
   }
+  void scheduleInitialLayout() {
+    assert(attached);
+    assert(parent == null);
+    assert(_relayoutSubtreeRoot == null);
+    _relayoutSubtreeRoot = this;
+    _nodesNeedingLayout.add(this);
+    scheduler.ensureVisualUpdate();
+  }
   static void flushLayout() {
     _debugDoingLayout = true;
     List<RenderObject> dirtyNodes = _nodesNeedingLayout;
@@ -203,7 +204,7 @@ abstract class RenderObject extends AbstractNode {
 
   // EVENTS
 
-  void handleEvent(sky.Event event) {
+  void handleEvent(sky.Event event, HitTestEntry entry) {
     // override this if you have a client, to hand it to the client
     // override this if you want to do anything with the event
   }
@@ -252,13 +253,17 @@ abstract class RenderObject extends AbstractNode {
 
 }
 
+class HitTestEntry {
+  const HitTestEntry(this.target);
+
+  final RenderObject target;
+}
+
 class HitTestResult {
-  final List<RenderObject> path = new List<RenderObject>();
+  final List<HitTestEntry> path = new List<HitTestEntry>();
 
-  RenderObject get result => path.first;
-
-  void add(RenderObject node) {
-    path.add(node);
+  void add(HitTestEntry data) {
+    path.add(data);
   }
 }
 
