@@ -23,6 +23,7 @@ const int EventType_GESTURE_SCROLL_UPDATE = 10;
 const int EventType_GESTURE_SHOW_PRESS = 11;
 const int EventType_GESTURE_TAP = 12;
 const int EventType_GESTURE_TAP_DOWN = 13;
+const int EventType_BACK = 14;
 
 const int PointerKind_TOUCH = 0;
 
