@@ -27,6 +27,7 @@ part 'ColorFilter.dart';
 part 'CompositionEvent.dart';
 part 'CustomColor.dart';
 part 'CustomColorFilter.dart';
+part 'CustomDrawLooperLayerInfo.dart';
 part 'CustomGradient.dart';
 part 'CustomMaskFilter.dart';
 part 'CustomPaintingStyle.dart';

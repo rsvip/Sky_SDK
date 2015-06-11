@@ -15,13 +15,13 @@ void beginFrame(double timeStamp) {
     // Shadow layer.
     ..addLayerOnTop(
         new DrawLooperLayerInfo()
-          ..setPaintBits(-1)
+          ..setPaintBits(PaintBits.all)
           ..setOffset(const Point(5.0, 5.0))
           ..setColorMode(TransferMode.srcInMode),
         (Paint layerPaint) {
       layerPaint.color = const Color.fromARGB(128, 55, 55, 55);
       layerPaint.setMaskFilter(
-          new MaskFilter.Blur(BlurStyle.normal, 5.0, highQuality: true));
+          new MaskFilter.blur(BlurStyle.normal, 5.0, highQuality: true));
     })
     // Main layer.
     ..addLayerOnTop(new DrawLooperLayerInfo(), (Paint) {});

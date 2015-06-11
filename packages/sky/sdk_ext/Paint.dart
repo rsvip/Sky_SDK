@@ -20,7 +20,6 @@ class Paint extends
     void set color(Color value) native "Paint_color_Setter";
 
     // Methods
-    void setARGB(int a, int r, int g, int b) native "Paint_setARGB_Callback";
     void setDrawLooper(DrawLooper looper) native "Paint_setDrawLooper_Callback";
     void setColorFilter(ColorFilter filter) native "Paint_setColorFilter_Callback";
     void setMaskFilter(MaskFilter filter) native "Paint_setMaskFilter_Callback";

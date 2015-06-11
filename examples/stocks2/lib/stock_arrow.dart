@@ -2,14 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:sky/framework/fn2.dart';
-import 'package:vector_math/vector_math.dart';
+import 'dart:math' as math;
+import 'dart:sky' as sky;
+
 import 'package:sky/framework/rendering/box.dart';
 import 'package:sky/framework/rendering/object.dart';
 import 'package:sky/framework/theme2/colors.dart' as colors;
-
-import 'dart:math' as math;
-import 'dart:sky' as sky;
+import 'package:sky/framework/widgets/wrappers.dart';
 
 class StockArrow extends Component {
 
@@ -32,12 +31,12 @@ class StockArrow extends Component {
   UINode build() {
     // TODO(jackson): This should change colors with the theme
     Color color = _colorForPercentChange(percentChange);
-    const double size = 40.0;
-    var arrow = new CustomPaint(callback: (sky.Canvas canvas) {
+    const double kSize = 40.0;
+    var arrow = new CustomPaint(callback: (sky.Canvas canvas, Size size) {
       Paint paint = new Paint()..color = color;
       paint.strokeWidth = 1.0;
       var padding = paint.strokeWidth * 3.0;
-      var r = size / 2.0 - padding;
+      var r = kSize / 2.0 - padding;
       canvas.save();
       canvas.translate(padding, padding);
 
@@ -68,8 +67,8 @@ class StockArrow extends Component {
 
     return new Container(
         child: arrow,
-        width: size,
-        height: size,
+        width: kSize,
+        height: kSize,
         margin: const EdgeDims.symmetric(horizontal: 5.0));
   }
 

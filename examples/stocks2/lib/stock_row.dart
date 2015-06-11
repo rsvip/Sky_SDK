@@ -3,11 +3,11 @@
 // found in the LICENSE file.
 
 import 'dart:sky' as sky;
-import 'package:sky/framework/components2/ink_well.dart';
-import 'package:sky/framework/fn2.dart';
-import 'package:sky/framework/rendering/flex.dart';
+
 import 'package:sky/framework/rendering/box.dart';
-import 'package:sky/framework/theme/typography.dart' as typography;
+import 'package:sky/framework/widgets/wrappers.dart';
+import 'package:sky/framework/widgets/ink_well.dart';
+
 import 'stock_arrow.dart';
 import 'stock_data.dart';
 
@@ -36,15 +36,16 @@ class StockRow extends Component {
       new FlexExpandingChild(new Text(changeInPrice), key: "changeInPrice")
     ];
 
-    return new Container(
-      padding: const EdgeDims(16.0, 16.0, 20.0, 16.0),
-      height: kHeight, // TODO(hansmuller): This shouldn't be needed
-      decoration: const BoxDecoration(
-          backgroundColor: const sky.Color(0xFFFFFFFF),
-          border: const Border(
-              bottom: const BorderSide(
-                  color: const sky.Color(0xFFF4F4F4),
-                  width: 1.0))),
-      child: new FlexContainer(children: children));
+    // TODO(hansmuller): An explicit |height| shouldn't be needed
+    return new InkWell(children: [
+      new Container(
+        padding: const EdgeDims(16.0, 16.0, 20.0, 16.0),
+        height: kHeight,
+        decoration: const BoxDecoration(
+            border: const Border(
+                bottom: const BorderSide(color: const sky.Color(0xFFF4F4F4)))),
+        child: new Flex(children)
+      )
+    ]);
   }
 }

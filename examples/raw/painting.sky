@@ -26,10 +26,9 @@ void main() {
     paint.color = const Color.fromARGB(128, 255, 0, 255);
     context.rotate(math.PI/4.0);
 
-    Gradient yellowBlue = new Gradient.Linear(
+    Gradient yellowBlue = new Gradient.linear(
         [new Point(-radius, -radius), new Point(0.0, 0.0)],
-        [const Color(0xFFFFFF00), const Color(0xFF0000FF)],
-        null);
+        [const Color(0xFFFFFF00), const Color(0xFF0000FF)]);
     context.drawRect(new Rect.fromLTRB(-radius, -radius, radius, radius),
                      new Paint()..setShader(yellowBlue));
 
@@ -52,26 +51,29 @@ void main() {
             new DrawLooperLayerInfo()
               ..setOffset(const Point(150.0, 0.0))
               ..setColorMode(TransferMode.srcMode)
-              ..setPaintBits(-1),
+              ..setPaintBits(PaintBits.all),
             (Paint layerPaint) {
           layerPaint.color = const Color.fromARGB(128, 255, 255, 0);
           layerPaint.setColorFilter(
-              new ColorFilter.Mode(const Color.fromARGB(128, 0, 0, 255),
+              new ColorFilter.mode(const Color.fromARGB(128, 0, 0, 255),
                                    TransferMode.srcInMode));
           layerPaint.setMaskFilter(
-              new MaskFilter.Blur(BlurStyle.normal, 3.0, highQuality: true));
+              new MaskFilter.blur(BlurStyle.normal, 3.0, highQuality: true));
         })
         ..addLayerOnTop(
             new DrawLooperLayerInfo()
               ..setOffset(const Point(75.0, 75.0))
               ..setColorMode(TransferMode.srcMode)
-              ..setPaintBits(-1),
+              ..setPaintBits(PaintBits.shader),
             (Paint layerPaint) {
-          Gradient redYellow = new Gradient.Radial(
+          Gradient redYellow = new Gradient.radial(
               new Point(0.0, 0.0), radius/3.0,
               [const Color(0xFFFFFF00), const Color(0xFFFF0000)],
               null, TileMode.mirror);
           layerPaint.setShader(redYellow);
+          // Since we're don't set PaintBits.maskFilter, this has no effect.
+          layerPaint.setMaskFilter(
+              new MaskFilter.blur(BlurStyle.normal, 50.0, highQuality: true));
         })
         ..addLayerOnTop(
             new DrawLooperLayerInfo()..setOffset(const Point(225.0, 75.0)),

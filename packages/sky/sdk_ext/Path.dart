@@ -17,6 +17,7 @@ class Path extends
     void moveTo(double x, double y) native "Path_moveTo_Callback";
     void lineTo(double x, double y) native "Path_lineTo_Callback";
     void arcTo(Rect rect, double startAngle, double sweepAngle, bool forceMoveTo) native "Path_arcTo_Callback";
+    void addOval(Rect oval) native "Path_addOval_Callback";
     void close() native "Path_close_Callback";
 
     // Operators

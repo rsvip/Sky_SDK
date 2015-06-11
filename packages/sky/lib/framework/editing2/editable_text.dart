@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import '../fn2.dart';
-import '../theme/colors.dart';
 import 'dart:async';
+
+import '../widgets/wrappers.dart';
 import 'editable_string.dart';
 
 class EditableText extends Component {
@@ -71,15 +71,9 @@ class EditableText extends Component {
       // children.add(new TextFragment(value.text));
       hack += value.text;
     } else {
-      String beforeComposing = value.textBefore(value.composing);
-      if (!beforeComposing.isEmpty) {
-        // children.add(new TextFragment(beforeComposing));
-        hack += value.beforeComposing;
-      }
-
-      String composing = value.textInside(value.composing);
-      hack += value.composing;
-      hack += value.afterComposing;
+      hack += value.textBefore(value.composing);
+      hack += value.textInside(value.composing);
+      hack += value.textAfter(value.composing);
       // if (!composing.isEmpty) {
       //   children.add(new TextFragment(
       //     composing,

@@ -23,6 +23,8 @@ abstract class Canvas extends
     void skew(double sx, double sy) native "Canvas_skew_Callback";
     void concat(Float32List matrix4) native "Canvas_concat_Callback";
     void clipRect(Rect rect) native "Canvas_clipRect_Callback";
+    void clipRRect(RRect rrect) native "Canvas_clipRRect_Callback";
+    void clipPath(Path path) native "Canvas_clipPath_Callback";
     void drawLine(double x0, double y0, double x1, double y1, Paint paint) native "Canvas_drawLine_Callback";
     void drawPicture(Picture picture) native "Canvas_drawPicture_Callback";
     void drawPaint(Paint paint) native "Canvas_drawPaint_Callback";
