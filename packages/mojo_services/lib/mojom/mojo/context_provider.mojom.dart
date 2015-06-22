@@ -149,8 +149,10 @@ class ContextProviderProxyImpl extends bindings.Proxy {
   ContextProviderProxyImpl.unbound() : super.unbound();
 
   static ContextProviderProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ContextProviderProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ContextProviderProxyImpl"));
+    return new ContextProviderProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ContextProviderName;
 
@@ -226,8 +228,10 @@ class ContextProviderProxy implements bindings.ProxyBase {
   }
 
   static ContextProviderProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ContextProviderProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ContextProviderProxy"));
+    return new ContextProviderProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -258,8 +262,10 @@ class ContextProviderStub extends bindings.Stub {
   ContextProviderStub.unbound() : super.unbound();
 
   static ContextProviderStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ContextProviderStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ContextProviderStub"));
+    return new ContextProviderStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ContextProviderName;
 

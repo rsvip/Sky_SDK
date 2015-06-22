@@ -883,8 +883,10 @@ class NativeViewportProxyImpl extends bindings.Proxy {
   NativeViewportProxyImpl.unbound() : super.unbound();
 
   static NativeViewportProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NativeViewportProxyImpl"));
+    return new NativeViewportProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => NativeViewportName;
 
@@ -1023,8 +1025,10 @@ class NativeViewportProxy implements bindings.ProxyBase {
   }
 
   static NativeViewportProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NativeViewportProxy"));
+    return new NativeViewportProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1055,8 +1059,10 @@ class NativeViewportStub extends bindings.Stub {
   NativeViewportStub.unbound() : super.unbound();
 
   static NativeViewportStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NativeViewportStub"));
+    return new NativeViewportStub.fromEndpoint(endpoint);
+  }
 
   static const String name = NativeViewportName;
 
@@ -1178,8 +1184,10 @@ class NativeViewportEventDispatcherProxyImpl extends bindings.Proxy {
   NativeViewportEventDispatcherProxyImpl.unbound() : super.unbound();
 
   static NativeViewportEventDispatcherProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportEventDispatcherProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NativeViewportEventDispatcherProxyImpl"));
+    return new NativeViewportEventDispatcherProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => NativeViewportEventDispatcherName;
 
@@ -1255,8 +1263,10 @@ class NativeViewportEventDispatcherProxy implements bindings.ProxyBase {
   }
 
   static NativeViewportEventDispatcherProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportEventDispatcherProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NativeViewportEventDispatcherProxy"));
+    return new NativeViewportEventDispatcherProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1287,8 +1297,10 @@ class NativeViewportEventDispatcherStub extends bindings.Stub {
   NativeViewportEventDispatcherStub.unbound() : super.unbound();
 
   static NativeViewportEventDispatcherStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportEventDispatcherStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NativeViewportEventDispatcherStub"));
+    return new NativeViewportEventDispatcherStub.fromEndpoint(endpoint);
+  }
 
   static const String name = NativeViewportEventDispatcherName;
 

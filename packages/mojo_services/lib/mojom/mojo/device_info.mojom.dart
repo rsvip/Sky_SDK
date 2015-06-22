@@ -147,8 +147,10 @@ class DeviceInfoProxyImpl extends bindings.Proxy {
   DeviceInfoProxyImpl.unbound() : super.unbound();
 
   static DeviceInfoProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DeviceInfoProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DeviceInfoProxyImpl"));
+    return new DeviceInfoProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => DeviceInfoName;
 
@@ -223,8 +225,10 @@ class DeviceInfoProxy implements bindings.ProxyBase {
   }
 
   static DeviceInfoProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DeviceInfoProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DeviceInfoProxy"));
+    return new DeviceInfoProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -255,8 +259,10 @@ class DeviceInfoStub extends bindings.Stub {
   DeviceInfoStub.unbound() : super.unbound();
 
   static DeviceInfoStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DeviceInfoStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DeviceInfoStub"));
+    return new DeviceInfoStub.fromEndpoint(endpoint);
+  }
 
   static const String name = DeviceInfoName;
 

@@ -227,8 +227,10 @@ class ViewportObserverProxyImpl extends bindings.Proxy {
   ViewportObserverProxyImpl.unbound() : super.unbound();
 
   static ViewportObserverProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportObserverProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewportObserverProxyImpl"));
+    return new ViewportObserverProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ViewportObserverName;
 
@@ -303,8 +305,10 @@ class ViewportObserverProxy implements bindings.ProxyBase {
   }
 
   static ViewportObserverProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportObserverProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewportObserverProxy"));
+    return new ViewportObserverProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -335,8 +339,10 @@ class ViewportObserverStub extends bindings.Stub {
   ViewportObserverStub.unbound() : super.unbound();
 
   static ViewportObserverStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportObserverStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewportObserverStub"));
+    return new ViewportObserverStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ViewportObserverName;
 

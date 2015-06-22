@@ -90,8 +90,10 @@ class GpuProxyImpl extends bindings.Proxy {
   GpuProxyImpl.unbound() : super.unbound();
 
   static GpuProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new GpuProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For GpuProxyImpl"));
+    return new GpuProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => GpuName;
 
@@ -150,8 +152,10 @@ class GpuProxy implements bindings.ProxyBase {
   }
 
   static GpuProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new GpuProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For GpuProxy"));
+    return new GpuProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -182,8 +186,10 @@ class GpuStub extends bindings.Stub {
   GpuStub.unbound() : super.unbound();
 
   static GpuStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new GpuStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For GpuStub"));
+    return new GpuStub.fromEndpoint(endpoint);
+  }
 
   static const String name = GpuName;
 

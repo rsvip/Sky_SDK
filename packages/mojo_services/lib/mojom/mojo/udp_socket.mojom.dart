@@ -1036,8 +1036,10 @@ class UdpSocketProxyImpl extends bindings.Proxy {
   UdpSocketProxyImpl.unbound() : super.unbound();
 
   static UdpSocketProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UdpSocketProxyImpl"));
+    return new UdpSocketProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => UdpSocketName;
 
@@ -1264,8 +1266,10 @@ class UdpSocketProxy implements bindings.ProxyBase {
   }
 
   static UdpSocketProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UdpSocketProxy"));
+    return new UdpSocketProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1296,8 +1300,10 @@ class UdpSocketStub extends bindings.Stub {
   UdpSocketStub.unbound() : super.unbound();
 
   static UdpSocketStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UdpSocketStub"));
+    return new UdpSocketStub.fromEndpoint(endpoint);
+  }
 
   static const String name = UdpSocketName;
 
@@ -1488,8 +1494,10 @@ class UdpSocketReceiverProxyImpl extends bindings.Proxy {
   UdpSocketReceiverProxyImpl.unbound() : super.unbound();
 
   static UdpSocketReceiverProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketReceiverProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UdpSocketReceiverProxyImpl"));
+    return new UdpSocketReceiverProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => UdpSocketReceiverName;
 
@@ -1550,8 +1558,10 @@ class UdpSocketReceiverProxy implements bindings.ProxyBase {
   }
 
   static UdpSocketReceiverProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketReceiverProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UdpSocketReceiverProxy"));
+    return new UdpSocketReceiverProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1582,8 +1592,10 @@ class UdpSocketReceiverStub extends bindings.Stub {
   UdpSocketReceiverStub.unbound() : super.unbound();
 
   static UdpSocketReceiverStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketReceiverStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UdpSocketReceiverStub"));
+    return new UdpSocketReceiverStub.fromEndpoint(endpoint);
+  }
 
   static const String name = UdpSocketReceiverName;
 

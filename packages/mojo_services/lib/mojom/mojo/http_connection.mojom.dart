@@ -521,8 +521,10 @@ class HttpConnectionProxyImpl extends bindings.Proxy {
   HttpConnectionProxyImpl.unbound() : super.unbound();
 
   static HttpConnectionProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpConnectionProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpConnectionProxyImpl"));
+    return new HttpConnectionProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => HttpConnectionName;
 
@@ -622,8 +624,10 @@ class HttpConnectionProxy implements bindings.ProxyBase {
   }
 
   static HttpConnectionProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpConnectionProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpConnectionProxy"));
+    return new HttpConnectionProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -654,8 +658,10 @@ class HttpConnectionStub extends bindings.Stub {
   HttpConnectionStub.unbound() : super.unbound();
 
   static HttpConnectionStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpConnectionStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpConnectionStub"));
+    return new HttpConnectionStub.fromEndpoint(endpoint);
+  }
 
   static const String name = HttpConnectionName;
 
@@ -749,8 +755,10 @@ class HttpConnectionDelegateProxyImpl extends bindings.Proxy {
   HttpConnectionDelegateProxyImpl.unbound() : super.unbound();
 
   static HttpConnectionDelegateProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpConnectionDelegateProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpConnectionDelegateProxyImpl"));
+    return new HttpConnectionDelegateProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => HttpConnectionDelegateName;
 
@@ -850,8 +858,10 @@ class HttpConnectionDelegateProxy implements bindings.ProxyBase {
   }
 
   static HttpConnectionDelegateProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpConnectionDelegateProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpConnectionDelegateProxy"));
+    return new HttpConnectionDelegateProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -882,8 +892,10 @@ class HttpConnectionDelegateStub extends bindings.Stub {
   HttpConnectionDelegateStub.unbound() : super.unbound();
 
   static HttpConnectionDelegateStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpConnectionDelegateStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpConnectionDelegateStub"));
+    return new HttpConnectionDelegateStub.fromEndpoint(endpoint);
+  }
 
   static const String name = HttpConnectionDelegateName;
 

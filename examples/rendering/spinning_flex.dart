@@ -4,14 +4,15 @@
 
 import 'dart:sky' as sky;
 import 'dart:math' as math;
+
+import 'package:sky/base/scheduler.dart';
+import 'package:sky/rendering/box.dart';
+import 'package:sky/rendering/flex.dart';
+import 'package:sky/rendering/sky_binding.dart';
 import 'package:vector_math/vector_math.dart';
-import 'package:sky/framework/app.dart';
-import 'package:sky/framework/rendering/box.dart';
-import 'package:sky/framework/rendering/flex.dart';
-import 'package:sky/framework/scheduler.dart';
+
 import '../lib/solid_color_box.dart';
 
-AppView app;
 double timeBase;
 RenderTransform transformBox;
 
@@ -32,7 +33,7 @@ void main() {
 
   RenderPadding root = new RenderPadding(padding: new EdgeDims.all(20.0), child: transformBox);
 
-  app = new AppView(root);
+  new SkyBinding(root: root);
 
   addPersistentFrameCallback(rotate);
 }

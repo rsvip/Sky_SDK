@@ -3,14 +3,15 @@
 // found in the LICENSE file.
 
 import 'dart:sky';
-import 'package:sky/framework/app.dart';
-import 'package:sky/framework/rendering/box.dart';
-import 'package:sky/framework/rendering/object.dart';
-import 'package:sky/framework/rendering/flex.dart';
-import 'package:sky/framework/rendering/paragraph.dart';
-import '../lib/solid_color_box.dart';
 
-AppView app;
+import 'package:sky/painting/text_style.dart';
+import 'package:sky/rendering/box.dart';
+import 'package:sky/rendering/flex.dart';
+import 'package:sky/rendering/object.dart';
+import 'package:sky/rendering/paragraph.dart';
+import 'package:sky/rendering/sky_binding.dart';
+
+import '../lib/solid_color_box.dart';
 
 void main() {
   RenderFlex flexRoot = new RenderFlex(direction: FlexDirection.vertical);
@@ -31,12 +32,15 @@ andouille leberkas capicola meatloaf. Chicken pig ball tip pork picanha bresaola
 alcatra. Pork pork belly alcatra, flank chuck drumstick biltong doner jowl.
 Pancetta meatball tongue tenderloin rump tail jowl boudin.""";
 
+  var text = new InlineStyle(
+      new TextStyle(color:  const Color(0xFF009900)),
+      [new InlineText(meatyString)]);
   child = new RenderDecoratedBox(
     decoration: new BoxDecoration(backgroundColor: const Color(0xFFFFFFFF)),
-    child: new RenderParagraph(text: meatyString, color: const Color(0xFF009900))
+    child: new RenderParagraph(text)
   );
   flexRoot.add(child);
   child.parentData.flex = 1;
 
-  app = new AppView(root);
+  new SkyBinding(root: root);
 }

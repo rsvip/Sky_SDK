@@ -296,8 +296,10 @@ class TcpBoundSocketProxyImpl extends bindings.Proxy {
   TcpBoundSocketProxyImpl.unbound() : super.unbound();
 
   static TcpBoundSocketProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpBoundSocketProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TcpBoundSocketProxyImpl"));
+    return new TcpBoundSocketProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => TcpBoundSocketName;
 
@@ -400,8 +402,10 @@ class TcpBoundSocketProxy implements bindings.ProxyBase {
   }
 
   static TcpBoundSocketProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpBoundSocketProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TcpBoundSocketProxy"));
+    return new TcpBoundSocketProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -432,8 +436,10 @@ class TcpBoundSocketStub extends bindings.Stub {
   TcpBoundSocketStub.unbound() : super.unbound();
 
   static TcpBoundSocketStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpBoundSocketStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TcpBoundSocketStub"));
+    return new TcpBoundSocketStub.fromEndpoint(endpoint);
+  }
 
   static const String name = TcpBoundSocketName;
 

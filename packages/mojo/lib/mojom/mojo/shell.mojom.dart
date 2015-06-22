@@ -106,8 +106,10 @@ class ShellProxyImpl extends bindings.Proxy {
   ShellProxyImpl.unbound() : super.unbound();
 
   static ShellProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ShellProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ShellProxyImpl"));
+    return new ShellProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ShellName;
 
@@ -168,8 +170,10 @@ class ShellProxy implements bindings.ProxyBase {
   }
 
   static ShellProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ShellProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ShellProxy"));
+    return new ShellProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -200,8 +204,10 @@ class ShellStub extends bindings.Stub {
   ShellStub.unbound() : super.unbound();
 
   static ShellStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ShellStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ShellStub"));
+    return new ShellStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ShellName;
 

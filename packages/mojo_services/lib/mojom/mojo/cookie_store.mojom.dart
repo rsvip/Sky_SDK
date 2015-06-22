@@ -273,8 +273,10 @@ class CookieStoreProxyImpl extends bindings.Proxy {
   CookieStoreProxyImpl.unbound() : super.unbound();
 
   static CookieStoreProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CookieStoreProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CookieStoreProxyImpl"));
+    return new CookieStoreProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => CookieStoreName;
 
@@ -375,8 +377,10 @@ class CookieStoreProxy implements bindings.ProxyBase {
   }
 
   static CookieStoreProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CookieStoreProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CookieStoreProxy"));
+    return new CookieStoreProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -407,8 +411,10 @@ class CookieStoreStub extends bindings.Stub {
   CookieStoreStub.unbound() : super.unbound();
 
   static CookieStoreStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CookieStoreStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CookieStoreStub"));
+    return new CookieStoreStub.fromEndpoint(endpoint);
+  }
 
   static const String name = CookieStoreName;
 

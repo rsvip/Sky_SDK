@@ -685,8 +685,10 @@ class WebSocketProxyImpl extends bindings.Proxy {
   WebSocketProxyImpl.unbound() : super.unbound();
 
   static WebSocketProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WebSocketProxyImpl"));
+    return new WebSocketProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => WebSocketName;
 
@@ -773,8 +775,10 @@ class WebSocketProxy implements bindings.ProxyBase {
   }
 
   static WebSocketProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WebSocketProxy"));
+    return new WebSocketProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -805,8 +809,10 @@ class WebSocketStub extends bindings.Stub {
   WebSocketStub.unbound() : super.unbound();
 
   static WebSocketStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WebSocketStub"));
+    return new WebSocketStub.fromEndpoint(endpoint);
+  }
 
   static const String name = WebSocketName;
 
@@ -890,8 +896,10 @@ class WebSocketClientProxyImpl extends bindings.Proxy {
   WebSocketClientProxyImpl.unbound() : super.unbound();
 
   static WebSocketClientProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketClientProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WebSocketClientProxyImpl"));
+    return new WebSocketClientProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => WebSocketClientName;
 
@@ -984,8 +992,10 @@ class WebSocketClientProxy implements bindings.ProxyBase {
   }
 
   static WebSocketClientProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketClientProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WebSocketClientProxy"));
+    return new WebSocketClientProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1016,8 +1026,10 @@ class WebSocketClientStub extends bindings.Stub {
   WebSocketClientStub.unbound() : super.unbound();
 
   static WebSocketClientStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketClientStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WebSocketClientStub"));
+    return new WebSocketClientStub.fromEndpoint(endpoint);
+  }
 
   static const String name = WebSocketClientName;
 

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:sky/framework/widgets/fixed_height_scrollable.dart';
-import 'package:sky/framework/widgets/wrappers.dart';
+import 'package:sky/widgets/fixed_height_scrollable.dart';
+import 'package:sky/widgets/basic.dart';
 
 import 'stock_data.dart';
 import 'stock_row.dart';
@@ -11,7 +11,7 @@ import 'stock_row.dart';
 class Stocklist extends FixedHeightScrollable {
 
   Stocklist({
-    Object key,
+    String key,
     this.stocks,
     this.query
   }) : super(itemHeight: StockRow.kHeight, key: key);
@@ -25,7 +25,7 @@ class Stocklist extends FixedHeightScrollable {
     super.syncFields(source);
   }
 
-  List<UINode> buildItems(int start, int count) {
+  List<Widget> buildItems(int start, int count) {
     var filteredStocks = stocks.where((stock) {
       return query == null ||
              stock.symbol.contains(new RegExp(query, caseSensitive: false));

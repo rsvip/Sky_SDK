@@ -441,8 +441,10 @@ class UrlLoaderProxyImpl extends bindings.Proxy {
   UrlLoaderProxyImpl.unbound() : super.unbound();
 
   static UrlLoaderProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderProxyImpl"));
+    return new UrlLoaderProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => UrlLoaderName;
 
@@ -564,8 +566,10 @@ class UrlLoaderProxy implements bindings.ProxyBase {
   }
 
   static UrlLoaderProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderProxy"));
+    return new UrlLoaderProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -596,8 +600,10 @@ class UrlLoaderStub extends bindings.Stub {
   UrlLoaderStub.unbound() : super.unbound();
 
   static UrlLoaderStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderStub"));
+    return new UrlLoaderStub.fromEndpoint(endpoint);
+  }
 
   static const String name = UrlLoaderName;
 

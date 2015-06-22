@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:sky/framework/widgets/checkbox.dart';
-import 'package:sky/framework/widgets/popup_menu.dart';
-import 'package:sky/framework/widgets/wrappers.dart';
+import 'package:sky/widgets/checkbox.dart';
+import 'package:sky/widgets/popup_menu.dart';
+import 'package:sky/widgets/basic.dart';
 import 'package:sky/framework/theme/view_configuration.dart';
 
 class StockMenu extends Component {
 
   StockMenu({
-    Object key,
+    String key,
     this.controller,
     this.autorefresh: false,
     this.onAutorefreshChanged
@@ -20,19 +20,19 @@ class StockMenu extends Component {
   final bool autorefresh;
   final ValueChanged onAutorefreshChanged;
 
-  UINode build() {
+  Widget build() {
     var checkbox = new Checkbox(
-      checked: this.autorefresh,
+      value: this.autorefresh,
       onChanged: this.onAutorefreshChanged
     );
 
-    return new StackPositionedChild(
-      new PopupMenu(
+    return new Positioned(
+      child: new PopupMenu(
         controller: controller,
         items: [
-          [new Text('Add stock')],
-          [new Text('Remove stock')],
-          [new FlexExpandingChild(new Text('Autorefresh')), checkbox],
+          new Text('Add stock'),
+          new Text('Remove stock'),
+          new Flex([new Flexible(child: new Text('Autorefresh')), checkbox]),
         ],
         level: 4
       ),

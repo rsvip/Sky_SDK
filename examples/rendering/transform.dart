@@ -3,18 +3,20 @@
 // found in the LICENSE file.
 
 import 'dart:sky' as sky;
-import 'package:sky/framework/app.dart';
-import 'package:sky/framework/rendering/flex.dart';
-import 'package:sky/framework/rendering/box.dart';
-import 'package:vector_math/vector_math.dart';
 
-AppView app;
+import 'package:sky/rendering/box.dart';
+import 'package:sky/rendering/flex.dart';
+import 'package:sky/rendering/sky_binding.dart';
+import 'package:vector_math/vector_math.dart';
 
 void main() {
   RenderDecoratedBox green = new RenderDecoratedBox(
-      decoration: new BoxDecoration(backgroundColor: const sky.Color(0xFF00FF00)));
-  RenderSizedBox box = new RenderSizedBox(
-      desiredSize: new sky.Size(200.0, 200.0), child: green);
+    decoration: new BoxDecoration(backgroundColor: const sky.Color(0xFF00FF00))
+  );
+  RenderConstrainedBox box = new RenderConstrainedBox(
+    additionalConstraints: new BoxConstraints.tight(const Size(200.0, 200.0)),
+    child: green
+  );
 
   Matrix4 transform = new Matrix4.identity();
   RenderTransform spin = new RenderTransform(
@@ -23,5 +25,5 @@ void main() {
 
   RenderFlex flex = new RenderFlex();
   flex.add(spin);
-  app = new AppView(flex);
+  new SkyBinding(root: flex);
 }

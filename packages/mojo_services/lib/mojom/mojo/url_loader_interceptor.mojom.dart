@@ -504,8 +504,10 @@ class UrlLoaderInterceptorFactoryProxyImpl extends bindings.Proxy {
   UrlLoaderInterceptorFactoryProxyImpl.unbound() : super.unbound();
 
   static UrlLoaderInterceptorFactoryProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderInterceptorFactoryProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderInterceptorFactoryProxyImpl"));
+    return new UrlLoaderInterceptorFactoryProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => UrlLoaderInterceptorFactoryName;
 
@@ -564,8 +566,10 @@ class UrlLoaderInterceptorFactoryProxy implements bindings.ProxyBase {
   }
 
   static UrlLoaderInterceptorFactoryProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderInterceptorFactoryProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderInterceptorFactoryProxy"));
+    return new UrlLoaderInterceptorFactoryProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -596,8 +600,10 @@ class UrlLoaderInterceptorFactoryStub extends bindings.Stub {
   UrlLoaderInterceptorFactoryStub.unbound() : super.unbound();
 
   static UrlLoaderInterceptorFactoryStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderInterceptorFactoryStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderInterceptorFactoryStub"));
+    return new UrlLoaderInterceptorFactoryStub.fromEndpoint(endpoint);
+  }
 
   static const String name = UrlLoaderInterceptorFactoryName;
 
@@ -662,8 +668,10 @@ class UrlLoaderInterceptorProxyImpl extends bindings.Proxy {
   UrlLoaderInterceptorProxyImpl.unbound() : super.unbound();
 
   static UrlLoaderInterceptorProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderInterceptorProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderInterceptorProxyImpl"));
+    return new UrlLoaderInterceptorProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => UrlLoaderInterceptorName;
 
@@ -786,8 +794,10 @@ class UrlLoaderInterceptorProxy implements bindings.ProxyBase {
   }
 
   static UrlLoaderInterceptorProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderInterceptorProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderInterceptorProxy"));
+    return new UrlLoaderInterceptorProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -818,8 +828,10 @@ class UrlLoaderInterceptorStub extends bindings.Stub {
   UrlLoaderInterceptorStub.unbound() : super.unbound();
 
   static UrlLoaderInterceptorStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderInterceptorStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlLoaderInterceptorStub"));
+    return new UrlLoaderInterceptorStub.fromEndpoint(endpoint);
+  }
 
   static const String name = UrlLoaderInterceptorName;
 

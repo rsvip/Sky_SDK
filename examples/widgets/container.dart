@@ -2,43 +2,43 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:sky' as sky;
-
-import 'package:sky/framework/rendering/box.dart';
-import 'package:sky/framework/rendering/flex.dart';
-import 'package:sky/framework/widgets/ui_node.dart';
-import 'package:sky/framework/widgets/wrappers.dart';
-
-class Rectangle extends Component {
-
-  Rectangle(this.color, { Object key }) : super(key: key);
-
-  final Color color;
-
-  UINode build() {
-    return new FlexExpandingChild(
-      new Container(
-        decoration: new BoxDecoration(backgroundColor: color)
-      )
-    );
-  }
-
-}
+import 'package:sky/rendering/box.dart';
+import 'package:sky/rendering/flex.dart';
+import 'package:sky/widgets/raised_button.dart';
+import 'package:sky/widgets/basic.dart';
 
 class ContainerApp extends App {
-  UINode build() {
+  Widget build() {
     return new Flex([
-        new Rectangle(const Color(0xFF00FFFF), key: 'a'),
         new Container(
           padding: new EdgeDims.all(10.0),
           margin: new EdgeDims.all(10.0),
           decoration: new BoxDecoration(backgroundColor: const Color(0xFFCCCCCC)),
-          child: new Image(src: "https://www.dartlang.org/logos/dart-logo.png",
-            size: new Size(300.0, 300.0),
-            key: 1
+          child: new Image(
+            src: "https://www.dartlang.org/logos/dart-logo.png",
+            size: new Size(300.0, 300.0)
           )
         ),
-        new Rectangle(const Color(0xFFFFFF00), key: 'b'),
+        new Container(
+          decoration: new BoxDecoration(backgroundColor: const Color(0xFFFFFF00)),
+          padding: new EdgeDims.symmetric(horizontal: 50.0, vertical: 75.0),
+          child: new Flex([
+            new RaisedButton(
+              child: new Text('PRESS ME'),
+              onPressed: () => print("Hello World")
+            ),
+            new RaisedButton(
+              child: new Text('DISABLED'),
+              onPressed: () => print("Hello World"),
+              enabled: false
+            )
+          ])
+        ),
+        new Flexible(
+          child: new Container(
+            decoration: new BoxDecoration(backgroundColor: const Color(0xFF00FFFF))
+          )
+        ),
       ],
       direction: FlexDirection.vertical,
       justifyContent: FlexJustifyContent.spaceBetween
@@ -47,5 +47,5 @@ class ContainerApp extends App {
 }
 
 void main() {
-  new ContainerApp();
+  runApp(new ContainerApp());
 }

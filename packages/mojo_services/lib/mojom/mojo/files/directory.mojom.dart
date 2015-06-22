@@ -935,8 +935,10 @@ class DirectoryProxyImpl extends bindings.Proxy {
   DirectoryProxyImpl.unbound() : super.unbound();
 
   static DirectoryProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DirectoryProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DirectoryProxyImpl"));
+    return new DirectoryProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => DirectoryName;
 
@@ -1161,8 +1163,10 @@ class DirectoryProxy implements bindings.ProxyBase {
   }
 
   static DirectoryProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DirectoryProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DirectoryProxy"));
+    return new DirectoryProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1193,8 +1197,10 @@ class DirectoryStub extends bindings.Stub {
   DirectoryStub.unbound() : super.unbound();
 
   static DirectoryStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DirectoryStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DirectoryStub"));
+    return new DirectoryStub.fromEndpoint(endpoint);
+  }
 
   static const String name = DirectoryName;
 

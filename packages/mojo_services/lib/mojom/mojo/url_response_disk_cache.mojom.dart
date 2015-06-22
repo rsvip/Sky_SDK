@@ -284,8 +284,10 @@ class UrlResponseDiskCacheProxyImpl extends bindings.Proxy {
   UrlResponseDiskCacheProxyImpl.unbound() : super.unbound();
 
   static UrlResponseDiskCacheProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlResponseDiskCacheProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlResponseDiskCacheProxyImpl"));
+    return new UrlResponseDiskCacheProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => UrlResponseDiskCacheName;
 
@@ -385,8 +387,10 @@ class UrlResponseDiskCacheProxy implements bindings.ProxyBase {
   }
 
   static UrlResponseDiskCacheProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlResponseDiskCacheProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlResponseDiskCacheProxy"));
+    return new UrlResponseDiskCacheProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -417,8 +421,10 @@ class UrlResponseDiskCacheStub extends bindings.Stub {
   UrlResponseDiskCacheStub.unbound() : super.unbound();
 
   static UrlResponseDiskCacheStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlResponseDiskCacheStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For UrlResponseDiskCacheStub"));
+    return new UrlResponseDiskCacheStub.fromEndpoint(endpoint);
+  }
 
   static const String name = UrlResponseDiskCacheName;
 

@@ -383,8 +383,10 @@ class PredictionServiceProxyImpl extends bindings.Proxy {
   PredictionServiceProxyImpl.unbound() : super.unbound();
 
   static PredictionServiceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new PredictionServiceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For PredictionServiceProxyImpl"));
+    return new PredictionServiceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => PredictionServiceName;
 
@@ -467,8 +469,10 @@ class PredictionServiceProxy implements bindings.ProxyBase {
   }
 
   static PredictionServiceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new PredictionServiceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For PredictionServiceProxy"));
+    return new PredictionServiceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -499,8 +503,10 @@ class PredictionServiceStub extends bindings.Stub {
   PredictionServiceStub.unbound() : super.unbound();
 
   static PredictionServiceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new PredictionServiceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For PredictionServiceStub"));
+    return new PredictionServiceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = PredictionServiceName;
 

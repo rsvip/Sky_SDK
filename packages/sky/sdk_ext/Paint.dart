@@ -26,6 +26,7 @@ class Paint extends
     void setShader(Shader shader) native "Paint_setShader_Callback";
     void setStyle(PaintingStyle style) native "Paint_setStyle_Callback";
     void setTransferMode(TransferMode transferMode) native "Paint_setTransferMode_Callback";
+    String toString() native "Paint_toString_Callback";
 
     // Operators
 }

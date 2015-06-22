@@ -97,8 +97,10 @@ class ViewportParameterListenerProxyImpl extends bindings.Proxy {
   ViewportParameterListenerProxyImpl.unbound() : super.unbound();
 
   static ViewportParameterListenerProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportParameterListenerProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewportParameterListenerProxyImpl"));
+    return new ViewportParameterListenerProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ViewportParameterListenerName;
 
@@ -158,8 +160,10 @@ class ViewportParameterListenerProxy implements bindings.ProxyBase {
   }
 
   static ViewportParameterListenerProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportParameterListenerProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewportParameterListenerProxy"));
+    return new ViewportParameterListenerProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -190,8 +194,10 @@ class ViewportParameterListenerStub extends bindings.Stub {
   ViewportParameterListenerStub.unbound() : super.unbound();
 
   static ViewportParameterListenerStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportParameterListenerStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewportParameterListenerStub"));
+    return new ViewportParameterListenerStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ViewportParameterListenerName;
 

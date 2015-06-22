@@ -223,8 +223,10 @@ class NavigatorHostProxyImpl extends bindings.Proxy {
   NavigatorHostProxyImpl.unbound() : super.unbound();
 
   static NavigatorHostProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NavigatorHostProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NavigatorHostProxyImpl"));
+    return new NavigatorHostProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => NavigatorHostName;
 
@@ -298,8 +300,10 @@ class NavigatorHostProxy implements bindings.ProxyBase {
   }
 
   static NavigatorHostProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NavigatorHostProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NavigatorHostProxy"));
+    return new NavigatorHostProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -330,8 +334,10 @@ class NavigatorHostStub extends bindings.Stub {
   NavigatorHostStub.unbound() : super.unbound();
 
   static NavigatorHostStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NavigatorHostStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NavigatorHostStub"));
+    return new NavigatorHostStub.fromEndpoint(endpoint);
+  }
 
   static const String name = NavigatorHostName;
 

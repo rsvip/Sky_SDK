@@ -343,8 +343,10 @@ class WindowManagerInternalProxyImpl extends bindings.Proxy {
   WindowManagerInternalProxyImpl.unbound() : super.unbound();
 
   static WindowManagerInternalProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerInternalProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WindowManagerInternalProxyImpl"));
+    return new WindowManagerInternalProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => WindowManagerInternalName;
 
@@ -411,8 +413,10 @@ class WindowManagerInternalProxy implements bindings.ProxyBase {
   }
 
   static WindowManagerInternalProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerInternalProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WindowManagerInternalProxy"));
+    return new WindowManagerInternalProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -443,8 +447,10 @@ class WindowManagerInternalStub extends bindings.Stub {
   WindowManagerInternalStub.unbound() : super.unbound();
 
   static WindowManagerInternalStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerInternalStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WindowManagerInternalStub"));
+    return new WindowManagerInternalStub.fromEndpoint(endpoint);
+  }
 
   static const String name = WindowManagerInternalName;
 
@@ -514,8 +520,10 @@ class WindowManagerInternalClientProxyImpl extends bindings.Proxy {
   WindowManagerInternalClientProxyImpl.unbound() : super.unbound();
 
   static WindowManagerInternalClientProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerInternalClientProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WindowManagerInternalClientProxyImpl"));
+    return new WindowManagerInternalClientProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => WindowManagerInternalClientName;
 
@@ -589,8 +597,10 @@ class WindowManagerInternalClientProxy implements bindings.ProxyBase {
   }
 
   static WindowManagerInternalClientProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerInternalClientProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WindowManagerInternalClientProxy"));
+    return new WindowManagerInternalClientProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -621,8 +631,10 @@ class WindowManagerInternalClientStub extends bindings.Stub {
   WindowManagerInternalClientStub.unbound() : super.unbound();
 
   static WindowManagerInternalClientStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerInternalClientStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For WindowManagerInternalClientStub"));
+    return new WindowManagerInternalClientStub.fromEndpoint(endpoint);
+  }
 
   static const String name = WindowManagerInternalClientName;
 

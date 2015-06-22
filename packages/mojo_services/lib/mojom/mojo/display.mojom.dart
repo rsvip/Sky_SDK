@@ -217,8 +217,10 @@ class DisplayProxyImpl extends bindings.Proxy {
   DisplayProxyImpl.unbound() : super.unbound();
 
   static DisplayProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DisplayProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DisplayProxyImpl"));
+    return new DisplayProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => DisplayName;
 
@@ -294,8 +296,10 @@ class DisplayProxy implements bindings.ProxyBase {
   }
 
   static DisplayProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DisplayProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DisplayProxy"));
+    return new DisplayProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -326,8 +330,10 @@ class DisplayStub extends bindings.Stub {
   DisplayStub.unbound() : super.unbound();
 
   static DisplayStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DisplayStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DisplayStub"));
+    return new DisplayStub.fromEndpoint(endpoint);
+  }
 
   static const String name = DisplayName;
 
@@ -400,8 +406,10 @@ class DisplayFactoryProxyImpl extends bindings.Proxy {
   DisplayFactoryProxyImpl.unbound() : super.unbound();
 
   static DisplayFactoryProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DisplayFactoryProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DisplayFactoryProxyImpl"));
+    return new DisplayFactoryProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => DisplayFactoryName;
 
@@ -462,8 +470,10 @@ class DisplayFactoryProxy implements bindings.ProxyBase {
   }
 
   static DisplayFactoryProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DisplayFactoryProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DisplayFactoryProxy"));
+    return new DisplayFactoryProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -494,8 +504,10 @@ class DisplayFactoryStub extends bindings.Stub {
   DisplayFactoryStub.unbound() : super.unbound();
 
   static DisplayFactoryStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new DisplayFactoryStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For DisplayFactoryStub"));
+    return new DisplayFactoryStub.fromEndpoint(endpoint);
+  }
 
   static const String name = DisplayFactoryName;
 

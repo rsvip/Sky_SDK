@@ -261,8 +261,10 @@ class ApplicationProxyImpl extends bindings.Proxy {
   ApplicationProxyImpl.unbound() : super.unbound();
 
   static ApplicationProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ApplicationProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ApplicationProxyImpl"));
+    return new ApplicationProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ApplicationName;
 
@@ -339,8 +341,10 @@ class ApplicationProxy implements bindings.ProxyBase {
   }
 
   static ApplicationProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ApplicationProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ApplicationProxy"));
+    return new ApplicationProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -371,8 +375,10 @@ class ApplicationStub extends bindings.Stub {
   ApplicationStub.unbound() : super.unbound();
 
   static ApplicationStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ApplicationStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ApplicationStub"));
+    return new ApplicationStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ApplicationName;
 

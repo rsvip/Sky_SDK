@@ -97,8 +97,10 @@ class ServiceProviderProxyImpl extends bindings.Proxy {
   ServiceProviderProxyImpl.unbound() : super.unbound();
 
   static ServiceProviderProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceProviderProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ServiceProviderProxyImpl"));
+    return new ServiceProviderProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ServiceProviderName;
 
@@ -158,8 +160,10 @@ class ServiceProviderProxy implements bindings.ProxyBase {
   }
 
   static ServiceProviderProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceProviderProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ServiceProviderProxy"));
+    return new ServiceProviderProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -190,8 +194,10 @@ class ServiceProviderStub extends bindings.Stub {
   ServiceProviderStub.unbound() : super.unbound();
 
   static ServiceProviderStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceProviderStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ServiceProviderStub"));
+    return new ServiceProviderStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ServiceProviderName;
 

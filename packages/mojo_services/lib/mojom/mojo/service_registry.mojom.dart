@@ -114,8 +114,10 @@ class ServiceRegistryProxyImpl extends bindings.Proxy {
   ServiceRegistryProxyImpl.unbound() : super.unbound();
 
   static ServiceRegistryProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceRegistryProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ServiceRegistryProxyImpl"));
+    return new ServiceRegistryProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ServiceRegistryName;
 
@@ -175,8 +177,10 @@ class ServiceRegistryProxy implements bindings.ProxyBase {
   }
 
   static ServiceRegistryProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceRegistryProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ServiceRegistryProxy"));
+    return new ServiceRegistryProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -207,8 +211,10 @@ class ServiceRegistryStub extends bindings.Stub {
   ServiceRegistryStub.unbound() : super.unbound();
 
   static ServiceRegistryStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceRegistryStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ServiceRegistryStub"));
+    return new ServiceRegistryStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ServiceRegistryName;
 

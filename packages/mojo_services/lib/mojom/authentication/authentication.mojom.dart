@@ -365,8 +365,10 @@ class AuthenticationServiceProxyImpl extends bindings.Proxy {
   AuthenticationServiceProxyImpl.unbound() : super.unbound();
 
   static AuthenticationServiceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AuthenticationServiceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AuthenticationServiceProxyImpl"));
+    return new AuthenticationServiceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => AuthenticationServiceName;
 
@@ -474,8 +476,10 @@ class AuthenticationServiceProxy implements bindings.ProxyBase {
   }
 
   static AuthenticationServiceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AuthenticationServiceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AuthenticationServiceProxy"));
+    return new AuthenticationServiceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -506,8 +510,10 @@ class AuthenticationServiceStub extends bindings.Stub {
   AuthenticationServiceStub.unbound() : super.unbound();
 
   static AuthenticationServiceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AuthenticationServiceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AuthenticationServiceStub"));
+    return new AuthenticationServiceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = AuthenticationServiceName;
 

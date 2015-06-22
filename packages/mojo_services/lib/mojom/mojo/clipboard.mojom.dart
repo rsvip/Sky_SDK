@@ -538,8 +538,10 @@ class ClipboardProxyImpl extends bindings.Proxy {
   ClipboardProxyImpl.unbound() : super.unbound();
 
   static ClipboardProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ClipboardProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ClipboardProxyImpl"));
+    return new ClipboardProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ClipboardName;
 
@@ -672,8 +674,10 @@ class ClipboardProxy implements bindings.ProxyBase {
   }
 
   static ClipboardProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ClipboardProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ClipboardProxy"));
+    return new ClipboardProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -704,8 +708,10 @@ class ClipboardStub extends bindings.Stub {
   ClipboardStub.unbound() : super.unbound();
 
   static ClipboardStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ClipboardStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ClipboardStub"));
+    return new ClipboardStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ClipboardName;
 

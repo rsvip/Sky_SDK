@@ -100,8 +100,10 @@ class ContentHandlerProxyImpl extends bindings.Proxy {
   ContentHandlerProxyImpl.unbound() : super.unbound();
 
   static ContentHandlerProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ContentHandlerProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ContentHandlerProxyImpl"));
+    return new ContentHandlerProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ContentHandlerName;
 
@@ -161,8 +163,10 @@ class ContentHandlerProxy implements bindings.ProxyBase {
   }
 
   static ContentHandlerProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ContentHandlerProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ContentHandlerProxy"));
+    return new ContentHandlerProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -193,8 +197,10 @@ class ContentHandlerStub extends bindings.Stub {
   ContentHandlerStub.unbound() : super.unbound();
 
   static ContentHandlerStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ContentHandlerStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ContentHandlerStub"));
+    return new ContentHandlerStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ContentHandlerName;
 

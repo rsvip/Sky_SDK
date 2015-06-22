@@ -310,8 +310,10 @@ class SensorListenerProxyImpl extends bindings.Proxy {
   SensorListenerProxyImpl.unbound() : super.unbound();
 
   static SensorListenerProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SensorListenerProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SensorListenerProxyImpl"));
+    return new SensorListenerProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => SensorListenerName;
 
@@ -377,8 +379,10 @@ class SensorListenerProxy implements bindings.ProxyBase {
   }
 
   static SensorListenerProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SensorListenerProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SensorListenerProxy"));
+    return new SensorListenerProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -409,8 +413,10 @@ class SensorListenerStub extends bindings.Stub {
   SensorListenerStub.unbound() : super.unbound();
 
   static SensorListenerStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SensorListenerStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SensorListenerStub"));
+    return new SensorListenerStub.fromEndpoint(endpoint);
+  }
 
   static const String name = SensorListenerName;
 
@@ -476,8 +482,10 @@ class SensorServiceProxyImpl extends bindings.Proxy {
   SensorServiceProxyImpl.unbound() : super.unbound();
 
   static SensorServiceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SensorServiceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SensorServiceProxyImpl"));
+    return new SensorServiceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => SensorServiceName;
 
@@ -537,8 +545,10 @@ class SensorServiceProxy implements bindings.ProxyBase {
   }
 
   static SensorServiceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SensorServiceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SensorServiceProxy"));
+    return new SensorServiceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -569,8 +579,10 @@ class SensorServiceStub extends bindings.Stub {
   SensorServiceStub.unbound() : super.unbound();
 
   static SensorServiceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SensorServiceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SensorServiceStub"));
+    return new SensorServiceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = SensorServiceName;
 

@@ -90,8 +90,10 @@ class TerminalClientProxyImpl extends bindings.Proxy {
   TerminalClientProxyImpl.unbound() : super.unbound();
 
   static TerminalClientProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TerminalClientProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TerminalClientProxyImpl"));
+    return new TerminalClientProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => TerminalClientName;
 
@@ -150,8 +152,10 @@ class TerminalClientProxy implements bindings.ProxyBase {
   }
 
   static TerminalClientProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TerminalClientProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TerminalClientProxy"));
+    return new TerminalClientProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -182,8 +186,10 @@ class TerminalClientStub extends bindings.Stub {
   TerminalClientStub.unbound() : super.unbound();
 
   static TerminalClientStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TerminalClientStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TerminalClientStub"));
+    return new TerminalClientStub.fromEndpoint(endpoint);
+  }
 
   static const String name = TerminalClientName;
 

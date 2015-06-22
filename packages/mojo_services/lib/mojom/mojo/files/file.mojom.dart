@@ -1813,8 +1813,10 @@ class FileProxyImpl extends bindings.Proxy {
   FileProxyImpl.unbound() : super.unbound();
 
   static FileProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new FileProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For FileProxyImpl"));
+    return new FileProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => FileName;
 
@@ -2211,8 +2213,10 @@ class FileProxy implements bindings.ProxyBase {
   }
 
   static FileProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new FileProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For FileProxy"));
+    return new FileProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -2243,8 +2247,10 @@ class FileStub extends bindings.Stub {
   FileStub.unbound() : super.unbound();
 
   static FileStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new FileStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For FileStub"));
+    return new FileStub.fromEndpoint(endpoint);
+  }
 
   static const String name = FileName;
 

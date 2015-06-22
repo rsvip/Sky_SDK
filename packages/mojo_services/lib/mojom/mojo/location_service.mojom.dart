@@ -154,8 +154,10 @@ class LocationServiceProxyImpl extends bindings.Proxy {
   LocationServiceProxyImpl.unbound() : super.unbound();
 
   static LocationServiceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new LocationServiceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For LocationServiceProxyImpl"));
+    return new LocationServiceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => LocationServiceName;
 
@@ -231,8 +233,10 @@ class LocationServiceProxy implements bindings.ProxyBase {
   }
 
   static LocationServiceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new LocationServiceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For LocationServiceProxy"));
+    return new LocationServiceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -263,8 +267,10 @@ class LocationServiceStub extends bindings.Stub {
   LocationServiceStub.unbound() : super.unbound();
 
   static LocationServiceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new LocationServiceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For LocationServiceStub"));
+    return new LocationServiceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = LocationServiceName;
 

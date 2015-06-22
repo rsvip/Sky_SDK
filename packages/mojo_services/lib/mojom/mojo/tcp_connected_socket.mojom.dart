@@ -29,8 +29,10 @@ class TcpConnectedSocketProxyImpl extends bindings.Proxy {
   TcpConnectedSocketProxyImpl.unbound() : super.unbound();
 
   static TcpConnectedSocketProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpConnectedSocketProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TcpConnectedSocketProxyImpl"));
+    return new TcpConnectedSocketProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => TcpConnectedSocketName;
 
@@ -82,8 +84,10 @@ class TcpConnectedSocketProxy implements bindings.ProxyBase {
   }
 
   static TcpConnectedSocketProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpConnectedSocketProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TcpConnectedSocketProxy"));
+    return new TcpConnectedSocketProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -114,8 +118,10 @@ class TcpConnectedSocketStub extends bindings.Stub {
   TcpConnectedSocketStub.unbound() : super.unbound();
 
   static TcpConnectedSocketStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpConnectedSocketStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For TcpConnectedSocketStub"));
+    return new TcpConnectedSocketStub.fromEndpoint(endpoint);
+  }
 
   static const String name = TcpConnectedSocketName;
 

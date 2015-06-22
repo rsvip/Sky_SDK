@@ -4,21 +4,17 @@
 
 import 'dart:math' as math;
 import 'dart:sky' as sky;
-import 'package:sky/framework/app.dart';
-import 'package:sky/framework/rendering/box.dart';
-import 'package:sky/framework/rendering/block.dart';
-import 'package:sky/framework/rendering/node.dart';
 
-AppView app;
+import 'package:sky/rendering/block.dart';
+import 'package:sky/rendering/box.dart';
+import 'package:sky/rendering/sky_binding.dart';
 
 void main() {
-
-
   var root = new RenderBlock(children: [
     new RenderPadding(
       padding: new EdgeDims.all(10.0),
-      child: new RenderSizedBox(
-        desiredSize: new sky.Size.fromHeight(100.0),
+      child: new RenderConstrainedBox(
+        additionalConstraints: new BoxConstraints.tightFor(height: 100.0),
         child: new RenderDecoratedBox(
           decoration: new BoxDecoration(
             backgroundColor: new sky.Color(0xFFFFFF00)
@@ -28,8 +24,8 @@ void main() {
     ),
     new RenderPadding(
       padding: new EdgeDims.all(10.0),
-      child: new RenderSizedBox(
-        desiredSize: new sky.Size.fromHeight(100.0),
+      child: new RenderConstrainedBox(
+        additionalConstraints: new BoxConstraints.tightFor(height: 100.0),
         child: new RenderDecoratedBox(
           decoration: new BoxDecoration(
             border: new Border(
@@ -45,8 +41,8 @@ void main() {
     ),
     new RenderPadding(
       padding: new EdgeDims.all(10.0),
-      child: new RenderSizedBox(
-        desiredSize: new sky.Size.fromHeight(100.0),
+      child: new RenderConstrainedBox(
+        additionalConstraints: new BoxConstraints.tightFor(height: 100.0),
         child: new RenderDecoratedBox(
           decoration: new BoxDecoration(
             backgroundColor: new sky.Color(0xFFFFFF00)
@@ -56,8 +52,8 @@ void main() {
     ),
     new RenderPadding(
       padding: new EdgeDims.all(10.0),
-      child: new RenderSizedBox(
-        desiredSize: new sky.Size.fromHeight(100.0),
+      child: new RenderConstrainedBox(
+        additionalConstraints: new BoxConstraints.tightFor(height: 100.0),
         child: new RenderDecoratedBox(
           decoration: new BoxDecoration(
             backgroundColor: new sky.Color(0xFFFFFF00)
@@ -67,8 +63,8 @@ void main() {
     ),
     new RenderPadding(
       padding: new EdgeDims.all(10.0),
-      child: new RenderSizedBox(
-        desiredSize: new sky.Size.fromHeight(100.0),
+      child: new RenderConstrainedBox(
+        additionalConstraints: new BoxConstraints.tightFor(height: 100.0),
         child: new RenderDecoratedBox(
           decoration: new BoxDecoration(
             backgroundColor: new sky.Color(0xFFFFFF00)
@@ -77,5 +73,5 @@ void main() {
       )
     ),
   ]);
-  app = new AppView(root);
+  new SkyBinding(root: root);
 }

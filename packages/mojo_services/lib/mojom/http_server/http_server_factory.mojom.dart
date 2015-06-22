@@ -100,8 +100,10 @@ class HttpServerFactoryProxyImpl extends bindings.Proxy {
   HttpServerFactoryProxyImpl.unbound() : super.unbound();
 
   static HttpServerFactoryProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerFactoryProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpServerFactoryProxyImpl"));
+    return new HttpServerFactoryProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => HttpServerFactoryName;
 
@@ -161,8 +163,10 @@ class HttpServerFactoryProxy implements bindings.ProxyBase {
   }
 
   static HttpServerFactoryProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerFactoryProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpServerFactoryProxy"));
+    return new HttpServerFactoryProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -193,8 +197,10 @@ class HttpServerFactoryStub extends bindings.Stub {
   HttpServerFactoryStub.unbound() : super.unbound();
 
   static HttpServerFactoryStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerFactoryStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpServerFactoryStub"));
+    return new HttpServerFactoryStub.fromEndpoint(endpoint);
+  }
 
   static const String name = HttpServerFactoryName;
 

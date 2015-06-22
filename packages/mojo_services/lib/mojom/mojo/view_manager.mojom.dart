@@ -2845,8 +2845,10 @@ class ViewManagerServiceProxyImpl extends bindings.Proxy {
   ViewManagerServiceProxyImpl.unbound() : super.unbound();
 
   static ViewManagerServiceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerServiceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewManagerServiceProxyImpl"));
+    return new ViewManagerServiceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ViewManagerServiceName;
 
@@ -3223,8 +3225,10 @@ class ViewManagerServiceProxy implements bindings.ProxyBase {
   }
 
   static ViewManagerServiceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerServiceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewManagerServiceProxy"));
+    return new ViewManagerServiceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -3255,8 +3259,10 @@ class ViewManagerServiceStub extends bindings.Stub {
   ViewManagerServiceStub.unbound() : super.unbound();
 
   static ViewManagerServiceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerServiceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewManagerServiceStub"));
+    return new ViewManagerServiceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ViewManagerServiceName;
 
@@ -3568,8 +3574,10 @@ class ViewManagerClientProxyImpl extends bindings.Proxy {
   ViewManagerClientProxyImpl.unbound() : super.unbound();
 
   static ViewManagerClientProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerClientProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewManagerClientProxyImpl"));
+    return new ViewManagerClientProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ViewManagerClientName;
 
@@ -3759,8 +3767,10 @@ class ViewManagerClientProxy implements bindings.ProxyBase {
   }
 
   static ViewManagerClientProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerClientProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewManagerClientProxy"));
+    return new ViewManagerClientProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -3791,8 +3801,10 @@ class ViewManagerClientStub extends bindings.Stub {
   ViewManagerClientStub.unbound() : super.unbound();
 
   static ViewManagerClientStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerClientStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ViewManagerClientStub"));
+    return new ViewManagerClientStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ViewManagerClientName;
 

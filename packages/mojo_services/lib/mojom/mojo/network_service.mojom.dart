@@ -10,6 +10,7 @@ import 'package:mojo/bindings.dart' as bindings;
 import 'package:mojo/core.dart' as core;
 import 'package:mojom/mojo/network_error.mojom.dart' as network_error_mojom;
 import 'package:mojom/mojo/cookie_store.mojom.dart' as cookie_store_mojom;
+import 'package:mojom/mojo/host_resolver.mojom.dart' as host_resolver_mojom;
 import 'package:mojom/mojo/http_server.mojom.dart' as http_server_mojom;
 import 'package:mojom/mojo/net_address.mojom.dart' as net_address_mojom;
 import 'package:mojom/mojo/tcp_bound_socket.mojom.dart' as tcp_bound_socket_mojom;
@@ -731,6 +732,64 @@ class NetworkServiceRegisterUrlLoaderInterceptorParams extends bindings.Struct {
   }
 }
 
+class NetworkServiceCreateHostResolverParams extends bindings.Struct {
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
+  Object hostResolver = null;
+
+  NetworkServiceCreateHostResolverParams() : super(kVersions.last.size);
+
+  static NetworkServiceCreateHostResolverParams deserialize(bindings.Message message) {
+    var decoder = new bindings.Decoder(message);
+    var result = decode(decoder);
+    decoder.excessHandles.forEach((h) => h.close());
+    return result;
+  }
+
+  static NetworkServiceCreateHostResolverParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    NetworkServiceCreateHostResolverParams result = new NetworkServiceCreateHostResolverParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size == kVersions[i].size) {
+            // Found a match.
+            break;
+          }
+          throw new bindings.MojoCodecError(
+              'Header size doesn\'t correspond to known version size.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.hostResolver = decoder0.decodeInterfaceRequest(8, false, host_resolver_mojom.HostResolverStub.newFromEndpoint);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
+    
+    encoder0.encodeInterfaceRequest(hostResolver, 8, false);
+  }
+
+  String toString() {
+    return "NetworkServiceCreateHostResolverParams("
+           "hostResolver: $hostResolver" ")";
+  }
+}
+
 const int kNetworkService_createUrlLoader_name = 0;
 const int kNetworkService_getCookieStore_name = 1;
 const int kNetworkService_createWebSocket_name = 2;
@@ -739,6 +798,7 @@ const int kNetworkService_createTcpConnectedSocket_name = 4;
 const int kNetworkService_createUdpSocket_name = 5;
 const int kNetworkService_createHttpServer_name = 6;
 const int kNetworkService_registerUrlLoaderInterceptor_name = 7;
+const int kNetworkService_createHostResolver_name = 8;
 
 const String NetworkServiceName =
       'mojo::NetworkService';
@@ -752,6 +812,7 @@ abstract class NetworkService {
   void createUdpSocket(Object socket);
   Future<NetworkServiceCreateHttpServerResponseParams> createHttpServer(net_address_mojom.NetAddress localAddress,Object delegate,[Function responseFactory = null]);
   void registerUrlLoaderInterceptor(Object factory);
+  void createHostResolver(Object hostResolver);
 
 }
 
@@ -766,8 +827,10 @@ class NetworkServiceProxyImpl extends bindings.Proxy {
   NetworkServiceProxyImpl.unbound() : super.unbound();
 
   static NetworkServiceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NetworkServiceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NetworkServiceProxyImpl"));
+    return new NetworkServiceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => NetworkServiceName;
 
@@ -902,6 +965,13 @@ class _NetworkServiceProxyCalls implements NetworkService {
       _proxyImpl.sendMessage(params, kNetworkService_registerUrlLoaderInterceptor_name);
     }
   
+    void createHostResolver(Object hostResolver) {
+      assert(_proxyImpl.isBound);
+      var params = new NetworkServiceCreateHostResolverParams();
+      params.hostResolver = hostResolver;
+      _proxyImpl.sendMessage(params, kNetworkService_createHostResolver_name);
+    }
+  
 }
 
 
@@ -931,8 +1001,10 @@ class NetworkServiceProxy implements bindings.ProxyBase {
   }
 
   static NetworkServiceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NetworkServiceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NetworkServiceProxy"));
+    return new NetworkServiceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -963,8 +1035,10 @@ class NetworkServiceStub extends bindings.Stub {
   NetworkServiceStub.unbound() : super.unbound();
 
   static NetworkServiceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new NetworkServiceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For NetworkServiceStub"));
+    return new NetworkServiceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = NetworkServiceName;
 
@@ -1059,6 +1133,11 @@ class NetworkServiceStub extends bindings.Stub {
         var params = NetworkServiceRegisterUrlLoaderInterceptorParams.deserialize(
             message.payload);
         _impl.registerUrlLoaderInterceptor(params.factory);
+        break;
+      case kNetworkService_createHostResolver_name:
+        var params = NetworkServiceCreateHostResolverParams.deserialize(
+            message.payload);
+        _impl.createHostResolver(params.hostResolver);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");

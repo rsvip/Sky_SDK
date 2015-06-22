@@ -867,8 +867,10 @@ class GeocoderProxyImpl extends bindings.Proxy {
   GeocoderProxyImpl.unbound() : super.unbound();
 
   static GeocoderProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new GeocoderProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For GeocoderProxyImpl"));
+    return new GeocoderProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => GeocoderName;
 
@@ -970,8 +972,10 @@ class GeocoderProxy implements bindings.ProxyBase {
   }
 
   static GeocoderProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new GeocoderProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For GeocoderProxy"));
+    return new GeocoderProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1002,8 +1006,10 @@ class GeocoderStub extends bindings.Stub {
   GeocoderStub.unbound() : super.unbound();
 
   static GeocoderStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new GeocoderStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For GeocoderStub"));
+    return new GeocoderStub.fromEndpoint(endpoint);
+  }
 
   static const String name = GeocoderName;
 

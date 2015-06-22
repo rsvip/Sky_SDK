@@ -986,8 +986,10 @@ class CommandBufferSyncClientProxyImpl extends bindings.Proxy {
   CommandBufferSyncClientProxyImpl.unbound() : super.unbound();
 
   static CommandBufferSyncClientProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncClientProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferSyncClientProxyImpl"));
+    return new CommandBufferSyncClientProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => CommandBufferSyncClientName;
 
@@ -1054,8 +1056,10 @@ class CommandBufferSyncClientProxy implements bindings.ProxyBase {
   }
 
   static CommandBufferSyncClientProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncClientProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferSyncClientProxy"));
+    return new CommandBufferSyncClientProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1086,8 +1090,10 @@ class CommandBufferSyncClientStub extends bindings.Stub {
   CommandBufferSyncClientStub.unbound() : super.unbound();
 
   static CommandBufferSyncClientStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncClientStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferSyncClientStub"));
+    return new CommandBufferSyncClientStub.fromEndpoint(endpoint);
+  }
 
   static const String name = CommandBufferSyncClientName;
 
@@ -1153,8 +1159,10 @@ class CommandBufferSyncPointClientProxyImpl extends bindings.Proxy {
   CommandBufferSyncPointClientProxyImpl.unbound() : super.unbound();
 
   static CommandBufferSyncPointClientProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncPointClientProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferSyncPointClientProxyImpl"));
+    return new CommandBufferSyncPointClientProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => CommandBufferSyncPointClientName;
 
@@ -1213,8 +1221,10 @@ class CommandBufferSyncPointClientProxy implements bindings.ProxyBase {
   }
 
   static CommandBufferSyncPointClientProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncPointClientProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferSyncPointClientProxy"));
+    return new CommandBufferSyncPointClientProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1245,8 +1255,10 @@ class CommandBufferSyncPointClientStub extends bindings.Stub {
   CommandBufferSyncPointClientStub.unbound() : super.unbound();
 
   static CommandBufferSyncPointClientStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncPointClientStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferSyncPointClientStub"));
+    return new CommandBufferSyncPointClientStub.fromEndpoint(endpoint);
+  }
 
   static const String name = CommandBufferSyncPointClientName;
 
@@ -1307,8 +1319,10 @@ class CommandBufferLostContextObserverProxyImpl extends bindings.Proxy {
   CommandBufferLostContextObserverProxyImpl.unbound() : super.unbound();
 
   static CommandBufferLostContextObserverProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferLostContextObserverProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferLostContextObserverProxyImpl"));
+    return new CommandBufferLostContextObserverProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => CommandBufferLostContextObserverName;
 
@@ -1367,8 +1381,10 @@ class CommandBufferLostContextObserverProxy implements bindings.ProxyBase {
   }
 
   static CommandBufferLostContextObserverProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferLostContextObserverProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferLostContextObserverProxy"));
+    return new CommandBufferLostContextObserverProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1399,8 +1415,10 @@ class CommandBufferLostContextObserverStub extends bindings.Stub {
   CommandBufferLostContextObserverStub.unbound() : super.unbound();
 
   static CommandBufferLostContextObserverStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferLostContextObserverStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferLostContextObserverStub"));
+    return new CommandBufferLostContextObserverStub.fromEndpoint(endpoint);
+  }
 
   static const String name = CommandBufferLostContextObserverName;
 
@@ -1477,8 +1495,10 @@ class CommandBufferProxyImpl extends bindings.Proxy {
   CommandBufferProxyImpl.unbound() : super.unbound();
 
   static CommandBufferProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferProxyImpl"));
+    return new CommandBufferProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => CommandBufferName;
 
@@ -1614,8 +1634,10 @@ class CommandBufferProxy implements bindings.ProxyBase {
   }
 
   static CommandBufferProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferProxy"));
+    return new CommandBufferProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1646,8 +1668,10 @@ class CommandBufferStub extends bindings.Stub {
   CommandBufferStub.unbound() : super.unbound();
 
   static CommandBufferStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For CommandBufferStub"));
+    return new CommandBufferStub.fromEndpoint(endpoint);
+  }
 
   static const String name = CommandBufferName;
 

@@ -99,8 +99,10 @@ class AuthenticatingUrlLoaderInterceptorMetaFactoryProxyImpl extends bindings.Pr
   AuthenticatingUrlLoaderInterceptorMetaFactoryProxyImpl.unbound() : super.unbound();
 
   static AuthenticatingUrlLoaderInterceptorMetaFactoryProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AuthenticatingUrlLoaderInterceptorMetaFactoryProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AuthenticatingUrlLoaderInterceptorMetaFactoryProxyImpl"));
+    return new AuthenticatingUrlLoaderInterceptorMetaFactoryProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => AuthenticatingUrlLoaderInterceptorMetaFactoryName;
 
@@ -160,8 +162,10 @@ class AuthenticatingUrlLoaderInterceptorMetaFactoryProxy implements bindings.Pro
   }
 
   static AuthenticatingUrlLoaderInterceptorMetaFactoryProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AuthenticatingUrlLoaderInterceptorMetaFactoryProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AuthenticatingUrlLoaderInterceptorMetaFactoryProxy"));
+    return new AuthenticatingUrlLoaderInterceptorMetaFactoryProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -192,8 +196,10 @@ class AuthenticatingUrlLoaderInterceptorMetaFactoryStub extends bindings.Stub {
   AuthenticatingUrlLoaderInterceptorMetaFactoryStub.unbound() : super.unbound();
 
   static AuthenticatingUrlLoaderInterceptorMetaFactoryStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AuthenticatingUrlLoaderInterceptorMetaFactoryStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AuthenticatingUrlLoaderInterceptorMetaFactoryStub"));
+    return new AuthenticatingUrlLoaderInterceptorMetaFactoryStub.fromEndpoint(endpoint);
+  }
 
   static const String name = AuthenticatingUrlLoaderInterceptorMetaFactoryName;
 

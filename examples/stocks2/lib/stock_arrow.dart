@@ -5,14 +5,14 @@
 import 'dart:math' as math;
 import 'dart:sky' as sky;
 
-import 'package:sky/framework/rendering/box.dart';
-import 'package:sky/framework/rendering/object.dart';
-import 'package:sky/framework/theme2/colors.dart' as colors;
-import 'package:sky/framework/widgets/wrappers.dart';
+import 'package:sky/rendering/box.dart';
+import 'package:sky/rendering/object.dart';
+import 'package:sky/theme/colors.dart' as colors;
+import 'package:sky/widgets/basic.dart';
 
 class StockArrow extends Component {
 
-  StockArrow({ Object key, this.percentChange }) : super(key: key);
+  StockArrow({ String key, this.percentChange }) : super(key: key);
 
   final double percentChange;
 
@@ -28,7 +28,7 @@ class StockArrow extends Component {
     return colors.Red[_colorIndexForPercentChange(percentChange)];
   }
 
-  UINode build() {
+  Widget build() {
     // TODO(jackson): This should change colors with the theme
     Color color = _colorForPercentChange(percentChange);
     const double kSize = 40.0;

@@ -939,8 +939,10 @@ class ResourceReturnerProxyImpl extends bindings.Proxy {
   ResourceReturnerProxyImpl.unbound() : super.unbound();
 
   static ResourceReturnerProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ResourceReturnerProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ResourceReturnerProxyImpl"));
+    return new ResourceReturnerProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => ResourceReturnerName;
 
@@ -999,8 +1001,10 @@ class ResourceReturnerProxy implements bindings.ProxyBase {
   }
 
   static ResourceReturnerProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ResourceReturnerProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ResourceReturnerProxy"));
+    return new ResourceReturnerProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1031,8 +1035,10 @@ class ResourceReturnerStub extends bindings.Stub {
   ResourceReturnerStub.unbound() : super.unbound();
 
   static ResourceReturnerStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new ResourceReturnerStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For ResourceReturnerStub"));
+    return new ResourceReturnerStub.fromEndpoint(endpoint);
+  }
 
   static const String name = ResourceReturnerName;
 
@@ -1101,8 +1107,10 @@ class SurfaceProxyImpl extends bindings.Proxy {
   SurfaceProxyImpl.unbound() : super.unbound();
 
   static SurfaceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SurfaceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SurfaceProxyImpl"));
+    return new SurfaceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => SurfaceName;
 
@@ -1223,8 +1231,10 @@ class SurfaceProxy implements bindings.ProxyBase {
   }
 
   static SurfaceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SurfaceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SurfaceProxy"));
+    return new SurfaceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1255,8 +1265,10 @@ class SurfaceStub extends bindings.Stub {
   SurfaceStub.unbound() : super.unbound();
 
   static SurfaceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new SurfaceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For SurfaceStub"));
+    return new SurfaceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = SurfaceName;
 

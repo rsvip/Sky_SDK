@@ -374,8 +374,10 @@ class AxProviderProxyImpl extends bindings.Proxy {
   AxProviderProxyImpl.unbound() : super.unbound();
 
   static AxProviderProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AxProviderProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AxProviderProxyImpl"));
+    return new AxProviderProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => AxProviderName;
 
@@ -450,8 +452,10 @@ class AxProviderProxy implements bindings.ProxyBase {
   }
 
   static AxProviderProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AxProviderProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AxProviderProxy"));
+    return new AxProviderProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -482,8 +486,10 @@ class AxProviderStub extends bindings.Stub {
   AxProviderStub.unbound() : super.unbound();
 
   static AxProviderStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new AxProviderStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For AxProviderStub"));
+    return new AxProviderStub.fromEndpoint(endpoint);
+  }
 
   static const String name = AxProviderName;
 

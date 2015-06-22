@@ -385,8 +385,10 @@ class HttpServerProxyImpl extends bindings.Proxy {
   HttpServerProxyImpl.unbound() : super.unbound();
 
   static HttpServerProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpServerProxyImpl"));
+    return new HttpServerProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => HttpServerName;
 
@@ -486,8 +488,10 @@ class HttpServerProxy implements bindings.ProxyBase {
   }
 
   static HttpServerProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpServerProxy"));
+    return new HttpServerProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -518,8 +522,10 @@ class HttpServerStub extends bindings.Stub {
   HttpServerStub.unbound() : super.unbound();
 
   static HttpServerStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpServerStub"));
+    return new HttpServerStub.fromEndpoint(endpoint);
+  }
 
   static const String name = HttpServerName;
 
@@ -611,8 +617,10 @@ class HttpHandlerProxyImpl extends bindings.Proxy {
   HttpHandlerProxyImpl.unbound() : super.unbound();
 
   static HttpHandlerProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpHandlerProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpHandlerProxyImpl"));
+    return new HttpHandlerProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => HttpHandlerName;
 
@@ -688,8 +696,10 @@ class HttpHandlerProxy implements bindings.ProxyBase {
   }
 
   static HttpHandlerProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpHandlerProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpHandlerProxy"));
+    return new HttpHandlerProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -720,8 +730,10 @@ class HttpHandlerStub extends bindings.Stub {
   HttpHandlerStub.unbound() : super.unbound();
 
   static HttpHandlerStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpHandlerStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For HttpHandlerStub"));
+    return new HttpHandlerStub.fromEndpoint(endpoint);
+  }
 
   static const String name = HttpHandlerName;
 

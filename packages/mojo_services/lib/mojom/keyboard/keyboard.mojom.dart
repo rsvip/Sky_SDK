@@ -805,8 +805,10 @@ class KeyboardClientProxyImpl extends bindings.Proxy {
   KeyboardClientProxyImpl.unbound() : super.unbound();
 
   static KeyboardClientProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardClientProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For KeyboardClientProxyImpl"));
+    return new KeyboardClientProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => KeyboardClientName;
 
@@ -912,8 +914,10 @@ class KeyboardClientProxy implements bindings.ProxyBase {
   }
 
   static KeyboardClientProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardClientProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For KeyboardClientProxy"));
+    return new KeyboardClientProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -944,8 +948,10 @@ class KeyboardClientStub extends bindings.Stub {
   KeyboardClientStub.unbound() : super.unbound();
 
   static KeyboardClientStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardClientStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For KeyboardClientStub"));
+    return new KeyboardClientStub.fromEndpoint(endpoint);
+  }
 
   static const String name = KeyboardClientName;
 
@@ -1040,8 +1046,10 @@ class KeyboardServiceProxyImpl extends bindings.Proxy {
   KeyboardServiceProxyImpl.unbound() : super.unbound();
 
   static KeyboardServiceProxyImpl newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardServiceProxyImpl.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For KeyboardServiceProxyImpl"));
+    return new KeyboardServiceProxyImpl.fromEndpoint(endpoint);
+  }
 
   String get name => KeyboardServiceName;
 
@@ -1112,8 +1120,10 @@ class KeyboardServiceProxy implements bindings.ProxyBase {
   }
 
   static KeyboardServiceProxy newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardServiceProxy.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For KeyboardServiceProxy"));
+    return new KeyboardServiceProxy.fromEndpoint(endpoint);
+  }
 
   Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
@@ -1144,8 +1154,10 @@ class KeyboardServiceStub extends bindings.Stub {
   KeyboardServiceStub.unbound() : super.unbound();
 
   static KeyboardServiceStub newFromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardServiceStub.fromEndpoint(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) {
+    assert(endpoint.setDescription("For KeyboardServiceStub"));
+    return new KeyboardServiceStub.fromEndpoint(endpoint);
+  }
 
   static const String name = KeyboardServiceName;
 
