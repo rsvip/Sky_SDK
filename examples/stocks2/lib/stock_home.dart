@@ -4,7 +4,6 @@
 
 import 'package:sky/editing/input.dart';
 import 'package:sky/theme/colors.dart' as colors;
-import 'package:sky/theme/typography.dart' as typography;
 import 'package:sky/widgets/basic.dart';
 import 'package:sky/widgets/drawer.dart';
 import 'package:sky/widgets/drawer_header.dart';
@@ -24,24 +23,29 @@ import 'package:sky/widgets/widget.dart';
 import 'stock_data.dart';
 import 'stock_list.dart';
 import 'stock_menu.dart';
+import 'stock_types.dart';
 
-enum StockMode { optimistic, pessimistic }
+typedef void ModeUpdater(StockMode mode);
 
 class StockHome extends Component {
 
-  StockHome(this.navigator, RouteBase route, this.stocks) : super(stateful: true) {
+  StockHome(this.navigator, this.stocks, this.stockMode, this.modeUpdater) : super(stateful: true) {
     // if (debug)
     //   new Timer(new Duration(seconds: 1), dumpState);
     _drawerController = new DrawerController(_handleDrawerStatusChanged);
   }
 
+  Navigator navigator;
+  List<Stock> stocks;
+  StockMode stockMode;
+  ModeUpdater modeUpdater;
+
   void syncFields(StockHome source) {
     navigator = source.navigator;
     stocks = source.stocks;
+    stockMode = source.stockMode;
+    modeUpdater = source.modeUpdater;
   }
-
-  Navigator navigator;
-  List<Stock> stocks;
 
   bool _isSearching = false;
   String _searchQuery;
@@ -103,11 +107,12 @@ class StockHome extends Component {
     });
   }
 
-  StockMode _stockMode = StockMode.optimistic;
   void _handleStockModeChange(StockMode value) {
     setState(() {
-      _stockMode = value;
+      stockMode = value;
     });
+    if (modeUpdater != null)
+      modeUpdater(value);
   }
 
   Drawer buildDrawer() {
@@ -128,14 +133,14 @@ class StockHome extends Component {
           onPressed: () => _handleStockModeChange(StockMode.optimistic),
           children: [
             new Flexible(child: new Text('Optimistic')),
-            new Radio(value: StockMode.optimistic, groupValue: _stockMode, onChanged: _handleStockModeChange)
+            new Radio(value: StockMode.optimistic, groupValue: stockMode, onChanged: _handleStockModeChange)
           ]),
         new MenuItem(
           icon: 'action/thumb_down',
           onPressed: () => _handleStockModeChange(StockMode.pessimistic),
           children: [
             new Flexible(child: new Text('Pessimistic')),
-            new Radio(value: StockMode.pessimistic, groupValue: _stockMode, onChanged: _handleStockModeChange)
+            new Radio(value: StockMode.pessimistic, groupValue: stockMode, onChanged: _handleStockModeChange)
           ]),
         new MenuDivider(),
         new MenuItem(
@@ -161,7 +166,7 @@ class StockHome extends Component {
         left: new IconButton(
           icon: 'navigation/menu_white',
           onPressed: _handleOpenDrawer),
-        center: new Text('Stocks', style: typography.white.title),
+        center: new Text('Stocks'),
         right: [
           new IconButton(
             icon: 'action/search_white',
@@ -169,8 +174,7 @@ class StockHome extends Component {
           new IconButton(
             icon: 'navigation/more_vert_white',
             onPressed: _handleMenuShow)
-        ],
-        backgroundColor: colors.Purple[500]
+        ]
       );
   }
 
